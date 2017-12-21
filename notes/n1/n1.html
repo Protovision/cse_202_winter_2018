@@ -1,0 +1,204 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Fundamental types</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+ 		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Fundamental types</div>
+
+		<p>The fundamental types are the types that are built into the C++ language. To declare a variable of a fundamental type does not require the inclusion of any header file. A few fundamental types you should already know are:</p>
+
+		<ul>
+			<li> <tt>bool</tt> - Holds a value of <tt>true</tt> or <tt>false</tt> </li>
+			<li> <tt>char</tt> - Holds a character value such as <tt>'a'</tt>, <tt>'3'</tt>, and <tt>'?'</tt> </li>
+			<li> <tt>int</tt> - Holds an integer value such as <tt>12</tt> or <tt>-732</tt> </li>
+			<li> <tt>double</tt> - Holds a real number such as <tt>9.81</tt>
+		</ul>
+
+		<p>All other types within C++ are described or constructed in terms of the fundamental types.</p>
+
+		<div class="section">Integer types</div>
+
+		<p>The <tt>int</tt> type can be modified by using certain keywords right before it. This effectively modifies the type.</p>
+
+		<div class="section">Signedness</div>
+
+		<p>The signedness of an integer determines whether or not it can hold a negative value. By default, all integer types are signed which means they can represent a positive or negative value. Using the keyword <tt>unsigned</tt> before <tt>int</tt> disallows negative values for this type and consequently, it can store a value that lies within a broader range of positive values.</p>
+
+		<div class="section">Size</div>
+
+		<p>The size of an integer can be affected by using the keywords <tt>short</tt> or <tt>long</tt> before <tt>int</tt>. An integer's size affects how much space it occupies in the computer's memory; integers that require more storage can store a value that lies within a broader range of values.</p>
+
+		<table>
+			<tr>
+				<th>Type</th>
+				<th>Size</th>
+			</tr>
+			<tr>
+				<td><tt>short int</tt></td>
+				<td>At least 16 bits</td>
+			</tr>
+			<tr>
+				<td><tt>int</tt></td>
+				<td>At least 16 bits, but typically 32 bits</td>
+			</tr>
+			<tr>
+				<td><tt>long int</tt></td>
+				<td>At least 32 bits</td>
+			</tr>
+		</table>
+
+		<p>The unsigned integers occupy the same amount of storage as their signed equivalents</p>
+
+		<p>You can mix integer modifiers together in any order. For example, <tt>unsigned long int</tt> is an itneger occupying at least 32 bits and can only store a positive value.</p>
+
+		<p>Both the size and signedness of an integer affects the range of values it can take on.</p>
+
+		<table>
+			<tr>
+				<th>Signedness</th>
+				<th>Size</th>
+				<th>Value range</th>
+			</tr>
+			<tr>
+				<td>signed</td>
+				<td>16 bits</td>
+				<td>&plusmn;32767</td>
+			</tr>
+			<tr>
+				<td>unsigned</td>
+				<td>16 bits</td>
+				<td>0 to 65535</td>
+			</tr>
+			<tr>
+				<td>signed</td>
+				<td>32 bits</td>
+				<td>&plusmn;2.15 &times; 10<sup>9</sup></td>
+			</tr>
+			<tr>
+				<td>unsigned</td>
+				<td>32 bits</td>
+				<td>0 to 4.29 &times; 10<sup>9</sup></td>
+			</tr>
+		</table>
+
+		<div class="subsection">Integer literals</div>
+
+		<p>An integer value expressed directly is known as an integer literal. The expression 500 is an example of an integer literal.</p>
+
+		<p>Integer literals can further be categorized into decimal literals, octal literals, and hex literals.</p>
+
+		<p>Decimal literals are expressed in base 10, octal literals are expressed in base 8, and hex literals are expressed in base 16. The values <tt>20</tt>, <tt>024</tt> and <tt>0x14</tt> are all equivalent integer values expressed in decimal, octal, and hexadecimal respectively.</p>
+
+		<p>C++ requires that you have a leading zero in your integer value to indicate an octal literal; for a hex literal, a leading "0x" is required, otherwise decimal is assumed.</p>
+
+		<p>Integer literals have a default width of that for a regular <tt>int</tt>, but a suffix may be added to describe integer literals for <Tt>unsigned int</tt>, <tt>long int</tt> and <tt>unsigned long int</tt>.</p>
+
+		<table>
+			<tr>
+				<th>Integer literal suffix</th>
+				<th>Type</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><tt>int</tt></td>
+			</tr>
+			<tr>
+				<td><tt>u</tt></td>
+				<td><tt>unsigned int</tt></td>
+			</tr>
+			<tr>
+				<td><tt>l</tt></td>
+				<td><tt>long int</tt></td>
+			</tr>
+			<tr>
+				<td><tt>ul</tt></td>
+				<td><tt>unsigned long int</tt></td>
+			</tr>
+		</table>
+
+		<p>When different types of integers are used in the same expression, then implicit conversion takes place (which will be discussed in a later article).</p>
+
+		<div class="section">Floating-point types</div>
+
+		<p>The following types are floating-point types:</p>
+
+		<ul>
+			<li> <tt>float</tt> - Single precision floating point type </li>
+			<li> <tt>double</tt> - Double precision floating point type </li>
+			<li> <tt>long double</tt> - Extended precision floating point type </li>
+		</ul>
+
+		<p>All of these types are used for representing real numbers to a certain accuracy. The difference between these types are the range of values they can take on.</p>
+
+		<p>The C++ standard requires that <tt>float</tt> be able to take on a subset of values which <tt>double</tt> can take on, and that <tt>double</tt> be able to take on a subset of values which <tt>long double</tt> can take on.</p>
+
+		<p>What the range of values are for each floating-point type is implementation defined. The convention, however, is to represent <tt>float</tt> values in accordance with the IEEE-754 32 bit floating point type and to represent <tt>double</tt> values in accordance with the IEEE-754 64 bit floating point type.</p>
+
+		<p>Due to this convention, the range of a <tt>float</tt> is usually &plusmn;3.4 &times; 10<sup>&plusmn;38</sup> (with ~7 significant digits) and the range of a <tt>double</tt> is usually &plusmn;1.7 &times; 10<sup>&plusmn;308</sup> (with ~15 significant digits). </p>
+
+		<div class="subsection">Floating-point literals</div>
+
+		<p>Floating-point literals can be expressed in base 10 for any of the three floating-point types.</p>
+
+		<p>Here are some examples of floating-point literals for the same value:</p>
+
+		<ul>
+			<li> <tt>9.81</tt> </li>
+			<li> <tt>+9.81</tt> </li>
+			<li> <tt>981e-2</tt> </li>
+			<li> <tt>.981e1</tt> </li>
+			<li> <tt>+0.0981e+2</tt> </li>
+		</ul>
+
+		<p>Values with the optional 'e' symbol are followed by an integer and this indicates to what power of 10 should the floating-point literal value be multiplied by.</p>
+
+		<p>The default type of a floating-point literal is <tt>double</tt>, but you may add a suffix to change that:</p>
+
+		<table>
+			<tr>
+				<th>Floating-point literal suffix</th>
+				<th>Type</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><tt>double</tt></td>
+			</tr>
+			<tr>
+				<td><tt>f</tt></td>
+				<td><tt>float</tt></td>
+			</tr>
+			<tr>
+				<td><tt>l</tt></td>
+				<td><tt>long double</tt></td>
+			</tr>
+		</table>
+
+		<div class="section"><tt>std::numeric_limits</tt></div>
+
+		<p>Integer and floating-point types are collectively called arithmetic types and their properties can be queired for your particular C++ implementation using <tt>std::numeric_limits</tt></p>
+
+		<p>The following link is a program that uses <tt>std::numeric_limits</tt> to obtain the implementation's minimum and maximum values for <tt>short int</tt>, <tt>int</tt>, <tt>long int</tt>, <tt>float</tt>, <tt>double</tt>, and <tt>long double</tt>.</p>
+
+		<p><a href="limits.cpp" type="text/plain">limits.cpp</a></p>
+
+		<p>Using <tt>std::numeric_limits</tt> requires that you include the <tt>&lt;limits&gt;</tt> header file in your program.</p>
+
+		<p>You can learn more about <tt>std::numeric_limits</tt> at <a href="http://en.cppreference.com/w/cpp/types/numeric_limits">http://en.cppreference.com/w/cpp/types/numeric_limits</a></p>
+
+	</body>
+
+</html>

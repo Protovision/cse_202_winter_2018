@@ -1,0 +1,180 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Working with Arithmetic types</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Working with Arithmetic types</div>
+
+		<p>In the previous article, the arithmetic types and their literals were discussed. There are C++ language features and C++ standardl ibrary components that allow you to perform computation with integers and real numbers. You should already be familiar with expression. An expression is a sequence of operators and operands which may specify a computation and result in a value. Some operators you should be familiar with include: simple assignment, addition, subtraction, multiplication, and division.</p>
+
+		<div class="section">Assignment operators</div>
+
+		<p>In addition to simple assignment, the follownig other assignment operators are provided:</p>
+
+		<table>
+			<tr>
+				<th>Operator</th>
+				<th>Syntax</th>
+				<th>Equivalent expression</th>
+			</tr>
+			<tr>
+				<td>Addition assignment</td>
+				<td><tt>a += b</tt></td>
+				<td><tt>a = a + b</tt></td>
+			</tr>
+			<tr>
+				<td>Subtraction assignment</td>
+				<td><tt>a -= b</tt></td>
+				<td><tt>a = a - b</tt></td>
+			</tr>
+			<tr>
+				<td>Multiplication assignment</td>
+				<td><tt>a *= b</tt></td>
+				<td><tt>a = a * b</tt></td>
+			</tr>
+			<tr>
+				<td>Division assignment</td>
+				<td><tt>a /= b</tt></td>
+				<td><tt>a = a / b</tt></td>
+			</tr>
+			<tr>
+				<td>Modulo assignment</td>
+				<td><tt>a %= b</tt></td>
+				<td><tt>a = a % b</tt></td>
+			</tr>
+		</table>
+
+		<div class="section">Increment and decrement operators</div>
+
+		<table>
+			<tr>
+				<th>Operator</th>
+				<th>Syntax</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td>Pre-increment</td>
+				<td><tt>++a</tt></td>
+				<td>Increment <tt>a</tt> and return the new value</td>
+			</tr>
+			<tr>
+				<td>Post-increment</td>
+				<td><tt>a++</tt></td>
+				<td>Increment <tt>a</tt> and return the old value</td>
+			</tr>
+			<tr>
+				<td>Pre-decrement</td>
+				<td><tt>--a</tt></td>
+				<td>Decrement <tt>a</tt> and return the new value</td>
+			</tr>
+			<tr>
+				<td>Post-decrement</td>
+				<td><tt>a--</tt></td>
+				<td>Decrement <tt>a</tt> and return the old value</td>
+			</tr>
+		</table>
+
+		<p>The expression <tt>++a</tt> is exactly equivalent to <tt>a += 1</tt>. The expression <tt>--a</tt> is exactly equivalent to <tt>a -= 1</tt>.</p>
+
+		<div class="section">Common mathematical functions</div>
+
+		<p>By including the <tt>&lt;cmath&gt;</tt> header file, you gain access to the common mathematical functions of the C++ numerics library.</p>
+
+		<p>Here are some expressions using the common mathematical functions:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>abs(x)</tt></td>
+				<td>Absolute value of integer value x</td>
+			</tr>
+			<tr>
+				<td><tt>fabs(x)</tt></td>
+				<td>Absolute value of floating-point value x</td>
+			</tr>
+			<tr>
+				<td><tt>exp(x)</tt></td>
+				<td><i>e</i> raised to the power of x</td>
+			</tr>
+			<tr>
+				<td><tt>log(x)</tt></td>
+				<td>Natural logarithm of x</td>
+			</tr>
+			<tr>
+				<td><tt>log10(x)</tt></td>
+				<td>Base 10 logarithm of x</td>
+			</tr>
+			<tr>
+				<td><tt>sqrt(x)</tt></td>
+				<td>Square root of x</td>
+			</tr>
+			<tr>
+				<td><tt>sin(x)</tt></td>
+				<td>Sine of x</td>
+			</tr>
+			<tr>
+				<td><tt>cos(x)</tt></td>
+				<td>Cosine of x</td>
+			</tr>
+			<tr>
+				<td><tt>tan(x)</tt></td>
+				<td>Tangent of x</td>
+			</tr>
+			<tr>
+				<td><tt>asin(x)</tt></td>
+				<td>Arc sine of x</td>
+			</tr>
+			<tr>
+				<td><tt>acos(x)</tt></td>
+				<td>Arc cosine of x</td>
+			</tr>
+			<tr>
+				<td><tt>atan(x)</tt></td>
+				<td>Arc tangent of x</td>
+			</tr>
+			<tr>
+				<td><tt>ceil(x)</tt></td>
+				<td>Rounds up x to the nearest integer</td>
+			</tr>
+			<tr>
+				<td><tt>floor(x)</tt></td>
+				<td>Rounds down x to the nearest integer</td>
+			</tr>
+			<tr>
+				<td><tt>pow(x, y)</tt></td>
+				<td>x raised to the power of y</td>
+			</tr>
+		</table>
+
+		<p>All trigonometric functions expect an argument in radians.</p>
+
+		<p>For the full reference of these functions visit: <a href="http://en.cppreference.com/w/cpp/numeric/math">http://en.cppreference.com/w/cpp/numeric/math</a></p>
+
+		<div class="section">Mixing integer types with floating-point types</div>
+
+		<p>In a later article, the specific implicit conversions that take place when mixing integer values with floating-point values inside expressions will be discussed.</p>
+
+		<p>As a general rule though, the result of a non-assignment expression using different arithmetic types is a value that has the same type as the operand having the largest object representation in memory, with floating-point types having priority.</p>
+
+		<p>Thus, if you add a <tt>double</tt> to an <tt>int</tt>, the result is <tt>double</tt>. If you subtract a <tt>short int</tt> from a <tt>long int</tt>, the result is a <tt>long int</tt>. If you divide a <tt>float</tt> by a <tt>long double</tt>, the result is a <tt>long double</tt>. If you multiply a <tt>float</tt> with an <tt>int</tt>, the result is a <tt>float</tt>.</p>
+
+	</body>
+
+</html>

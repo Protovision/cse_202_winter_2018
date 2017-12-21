@@ -1,0 +1,123 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Standard I/O</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+	
+		<div class="title">Standard I/O</div>
+
+		<p>Standard I/O should have been the first thing you've seen in C++. I/O stands for Input/Output, and for C++, standard I/O involves the use of <tt>std::cin</tt> and <tt>std::cout</tt>.</p>
+
+		<p>Standard I/O in a more general sense, involves the use of the standard streams within a computer program. The standard streams are the main communication channels between a computer program and the rest of the operating system.</p>
+
+		<p>In C++, <tt>std::cin</tt> is the standard input stream and <tt>std::cout</tt> is the standard output stream. "cin" stands for "character in" and "cout" stands for "character out", this is because <tt>std::cin</tt> is typically connected to the keyboard (a device for receiving characters from the user) and <tt>std::cout</tt> is typically connected to a terminal window (a porogram for displaying characters).</p>
+
+		<p>These predefined objects are available when including the <tt>&lt;iostream&gt;</tt> header file, and they can be used with the following expressions:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::cin &gt;&gt; x</tt></td>
+				<td>Extract a value from <tt>std::cin</tt> and assign it to x</td>
+			</tr>
+			<tr>
+				<td><tt>std::cout &lt;&lt; x</tt></td>
+				<td>Insert the value x into <tt>std::cout</tt></td>
+			</tr>
+		</table>
+
+		<p>When used with C++ streams, these operators are known as the stream insertion and stream extraction operators.</p>
+
+		<p>The stream extraction operator is effective for extracting values delimited by whitespace which is usually what you want when extracting values of arithmetic types.</p>
+
+		<div class="section">Character and string input</div>
+
+		<p>For characters and strings, you may want to extract values in a different manner. For the following table, assume that <tt>s</tt> is a variable of type <tt>std::string</tt> and <tt>c</tt> is a variable of type <tt>char</tt>:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::cin.get(c)</tt></td>
+				<td>Read the next character from <tt>std::cin</tt> and assign it to <tt>c</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::cin &gt;&gt; c</tt></td>
+				<td>Read the next non-whitespace character from <tt>std::cin</tt> and assign it to <tt>c</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::cin &gt;&gt; s</tt></td>
+				<td>Read the next word from <tt>std::cin</tt> and assign it to <tt>s</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::getline(std::cin, s)</tt></td>
+				<td>Read the next line from <tt>std::cin</tt> and assign it to <tt>s</tt></td>
+			</tr>
+		</table>
+
+		<p>Remember that using <tt>std::string</tt> or <tt>std::getline</tt> requires that you include <tt>&lt;string&gt;</tt>.</p>
+
+		<p>When any of these I/O expressions are used within the condition of an <tt>if</tt> statement or loop, then the result will be converted to <tt>false</tt> if the I/O operationg failed.</p>
+
+		<div class="section">Filter programs</div>
+
+		<p>A filter is a type of program that reads all data from standard input and writes it's results to standard output.</p>
+		
+		<p>Here is a simple filter program which reads all numbers entered by the user and displays the cosine of each number entered:</p>
+
+		<p><a type="text/plain" href="cos.cpp">cos.cpp</a></p>
+
+		<div class="section">Manipulators</div>
+
+		<p>A manipulator is a special function that, when used with an I/O operation, alters the way the stream behaves.</p>
+
+		<p>Here are a few manipulators:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::cout &lt;&lt; endl</tt></td>
+				<td>Inserts a new line and synchronizes the stream</td>
+			</tr>
+			<tr>
+				<td><tt>std::cin &gt;&gt; std::ws</tt></td>
+				<td>Extracts and discards whitespace</td>
+			</tr>
+			<tr>
+				<td><tt>std::cout &lt;&lt; std::setw(10)</tt></td>
+				<td>Sets the width of the next insertion to 10</td>
+			</tr>
+		</table>
+
+		<p>When used with an output stream, the <tt>std::setw</tt> manipulator will prepend spaces to the next value that gets inserted up to a specified length, this is useful for aligning text into columnes.</p>
+
+		<p>Test out the following program to see how <tt>std::setw</tt> works, modify it if you like:</p>
+
+		<p><a type="text/plain" href="setw.cpp">setw.cpp</a></p>
+
+		<p><tt>std::left</tt> and <tt>std::right</tt> affect how text is aligned when used with <tt>std::setw</tt>. By default, text wil bee aligned to the right.</p>
+
+	</body>
+
+</html>
