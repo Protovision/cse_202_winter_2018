@@ -1,0 +1,70 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Objects, Initialization, and Constructors</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Conversions</div>
+
+		<div class="section">Implicit conversions</div>
+
+		<p>Consider the code fragment <tt>int x = 3.5;</tt>. Even though the initializer value is 3.5, the initial value of x actually becomes 3. The first reason is because an integer object cannot store fractional values. The second reason is because 3.5 underwent <i>implicit conversion</i> during initialization.</p>
+
+		<p>Implicit conversion also happens when you invoke a function that expects a <tt>double</tt> argument, but you provide an <tt>int</tt> argument instead. An example of this happening is when an expression like <tt>std::cos(3)</tt> gets evaluated; the integer value <tt>3</tt> gets implicitly converted to the floating-point value <tt>3.0</tt>.</p>
+
+		<p>The implicit conversions that happen between built-in types are known as the standard conversions.</p>
+
+		<p>Most of the standard conversions are common sense (such as the integer value 42 becoming 42.0 when being assigned to a <tt>double</tt>). Some are less common sense (such as non-zero values becoming <tt>true</tt> when converted to <tt>bool</tt> and vice versa).</p>
+		<div class="section">Explicit conversions</div>
+
+		<p>An explicit conversion can be performed by the programmer. One way to do this is to have some expression preceeded by a type enclosed in parenthesis, for example <tt>(double)x</tt> is an explicit conversion of x to a value of type <tt>double</tt>. This method is known as <i>cast notation</i>, in this method we say that <tt>x</tt> is being "casted" to <tt>double</tt>.</p>
+
+		<p><i>functional notation</i> is another way to make an explicit conversion. The expression <tt>double(x)</tt> also creates a value of type <tt>double</tt> from x (converting the value of x if necessary).</p>
+
+		<div class="section">Converting constructor</div>
+
+		<p>A converting constructor is a constructor with a single parameter of a type that is different from the class that the constructor is for.</p>
+
+		<p>Here is a very abstract example of a class with a converting constructor:</p>
+		<code>
+class A {
+public:
+	A(bool b)
+	{
+
+	}
+};
+		</code>
+
+		<p>This class does nothing, but the following statements and expressions are now valid due to the presence of a boolean converting constructor in <tt>A</tt>:</p>
+
+		<ul>
+			<li><tt>A a = true;</tt></li>
+			<li><tt>A a(false);</tt></li>
+			<li><tt>A(true);</tt></li>
+			<li><tt>(A)true;</tt></li>
+		</ul>
+
+		<p>When an class type object gets initialized with a value of a different type, the appropriate converting constructor gets invoked. You can have multiple converting constructors if there is more than one type that can be converted to your class.</p>
+
+		<div class="subsection"><tt>explicit</tt> specifier</div>
+
+		<p>When a converting constructor for some class <tt>T</tt> is preceeded with the keyword <tt>explicit</tt>, then that converting constructor cannot be invoked through implicit conversion: an expression such as <tt>T x = U()</tt> becomes invalid; instead, direct initialization (<tt>T x(U());</tt>) or explicit conversion (<tt>T x = (T)U();</tt>) should be used to get the same effect.</p>
+
+		<p><tt>explicit</tt> can also be used with copy constructors to disallow copy initialization but still allow direct initialization.</p>
+
+	</body>
+</html>

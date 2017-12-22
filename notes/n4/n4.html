@@ -1,0 +1,138 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Objects, Initialization, and Constructors</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Objects, Initialization, and Constructors</div>
+
+		<div class="section">Objects</div>
+
+		<p>The term "object" within the context of C++ has a very different meaning from "object" in the sense of object-oriented programming.</p>
+
+		<p>In C++, an object is a region of storage, it does not need to be an instance of a class. This region of storage stores a value of some type for a limited duration. The duration that an object exists is known as it's <i>lifetime</i>. All variables are named objects, but temporary objects created from values returned from functions or conversions are nameless objects.</p>
+
+		<div class="section">Initialization</div>
+
+		<p>Before an object gets created (that is, before it's lifetime begins), either through a declaration or an expression, it undergoes initialization. Initialization produces the initial value of an object. During a variable declaration, the programmer can specify an <i>initializer</i>.</p>
+		
+		<p>An initializer is an expression following the assignment operator or an expression inside of a pair of parenthesis which is used to provide a variable's initial value.</p>
+		
+		<p>In the C++03 standard of C++, there are six types of initialization. Four of them are demonstrated in the following program:</p>
+
+		<code>
+#include &lt;iostream&gt;
+
+int main()
+{
+	unsigned char unused[1024];
+
+	int a;		/* Default initialization */
+	int b = int();	/* Value initialization */
+	int c(37);	/* Direct initialization */
+	int d = c;	/* Copy initialization */
+
+	std::cout &lt;&lt;
+		"a = " &lt;&lt; a &lt;&lt; std::endl &lt;&lt;
+		"b = " &lt;&lt; b &lt;&lt; std::endl &lt;&lt;
+		"c = " &lt;&lt; c &lt;&lt; std::endl &lt;&lt;
+		"d = " &lt;&lt; d &lt;&lt; std::endl;
+	return 0;
+}
+		</code>
+		
+		<p>When you run this program, you will get output that looks like this:</p>
+
+		<code>
+a = 32765
+b = 0
+c = 37
+d = 37
+		</code>
+
+		<div class="subsection">Default initialization</div>
+
+		<p>Default initialization happens when a variable gets created without an initializer.</p>
+
+		<p>For non-class types (such as <tt>int</tt> or <tt>double</tt>), default initialization does not perform any action and the value of the variable remains indeterminate. This is why the value for <tt>a</tt> in our example is different everytime you run the program.</p>
+
+		<div class="subsection">Value initialization</div>
+
+		<p>Value initialization happens when a nameless temporary object gets created with an empty pair of parenthesis for the initializer.</p> 
+
+		<p>For non-class types, value initialization sets the value of the object to zero.</p>
+
+		<p>In the example, variable <tt>b</tt> is not directly being value initialized; instead it is being copy initialized from a temporary object that was value initialized.</p>
+
+		<div class="subsection">Direct initialization and Copy initialization</div>
+
+		<p>Both direct initialization and copy initialization are ways for you to provide an initial value that isn't zero or indeterminate to a variable.</p>
+
+		<p>For non-class types, they both have the same effect: the value of the initializer will be assigned to your variable at the same time you declare that variable. If necessary, that value will be implicitly converted to be compatible with the type of your variable.</p>
+
+		<div class="section">Constructors</div>
+
+		<p>Aside from fundamental types we also have class types which are created with classes.</p>
+
+		<p>A class is a user-defined type. The properties of a class include (but are not limited to) it's data members, member functions, and nested types.</p>
+
+		<p>You should have already been exposed to classes, you should know how to create a class with public data members and member functions.</p>
+
+		<p>There are special class member functions called <i>constructors</i>. These functions are automatically invoked during the initialization of a class type object.</p>
+
+		<code>
+class card {
+public:
+	std::string rank;
+	std::string suit;
+
+	/* Default constructor */
+	card()
+	{
+		rank = "two";
+		suit = "spades";
+	}
+
+	/* Copy constructor */
+	card(const card&amp; other)
+	{
+		rank = other.rank;
+		suit = other.suit;
+	}
+};
+		</code>
+
+		<p>The above class represents a playing card. It has two data members: rank and suit. It's two member functions are both constructors, one of them being the default constructor and the other being the copy constructor (as pointed out by the comments).</p>
+
+		<div class="subsection">Default constructor</div>
+
+		<p>The default constructor gets invoked during default initialization or value initialization. The default constructor sets up the default value for the object. Before the function body of a default constructor gets executed, the data members and other subobjects undergo default initialization unless a member initializer list is specified.</p>
+
+		<p>In our example, the data members <tt>rank</tt> and <tt>suit</tt> are first set to empty string values (due to default initialization of subobjects) before our default constructor's function body gets executed. We can prevent this from happening by specifying a member initializer list. Our default constructor can be rewritten as:</p>
+
+		<code>
+card() : rank("two"), suit("spades")
+{
+}
+		</code>
+
+		<p>The member initializer list lets us perform direct initialization or value initialization with certain data members instead of allowing them to undergo default initialization.</p>
+
+		<div class="subsection">Copy constructor</div>
+
+		<p>The copy constructor gets invoked when an object undergoes copy initialization or direct initialization with an another object of the same type. The same rules for the initialization of subobjects apply and copy constructors may optionally have member initializer lists. If we do not provide a copy constructor, the compiler will automatically generate one as long as every subobject is copyable. </p>
+	</body>
+</html>

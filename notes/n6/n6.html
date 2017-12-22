@@ -1,0 +1,124 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Copy assignment and operator overloading</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Assignment and operator overloading</div>
+
+		<div class="section">Assignment</div>
+
+		<p>Even though copy initialization and copy assignment both use the simple assignment operator, they are different:</p>
+
+		<code>
+T object = other;	// Copy initialization
+object = other;		// Copy assignment
+		</code>
+
+		<p>For non-class types, they both have the same effect: the value of <tt>other</tt> is copied and assigned to <tt>object</tt>, replacing whatever value <tt>object</tt> already had.</p>
+
+		<p>The potential presence of a copy constructor or copy assignment operator in <tt>T</tt> can alter what happens during copy initialization or copy assignment.</p>
+
+		<code>
+#include &lt;iostream&gt;
+
+struct copy_me {
+	copy_me(const copy_me&amp; other)
+	{
+		std::cout &lt;&lt; "Copy initialization of type copy_me" &lt;&lt; std::endl;
+	}
+
+	copy_me&amp; operator=(const copy_me&amp; other)
+	{
+		std::cout &lt;&lt; "Copy assignment of type copy_me" &lt;&lt; std::endl;
+		return *this;
+	}
+};
+
+int main()
+{
+	copy_me object1;
+	copy_me object2 = object1;
+
+	object1 = object2;
+	return 0;
+}
+		</code>
+
+		<p>In this example, the class <tt>copy_me</tt> has a copy constructor and a copy assignment operator. The expression <tt>copy_me object2 = object1;</tt> results in the copy constructor for <tt>object2</tt> being invoked. The expression <tt>object1 = object2;</tt> results in the copy assignment operator for <tt>object1</tt> being invoked.</p>
+
+		<p>Notice the keyword <tt>struct</tt> used instead of <tt>class</tt>. In C++ the only difference between <tt>struct</tt> and <tt>class</tt> is that the default member access for <tt>struct</tt> is <tt>public</tt> while the default member access for <tt>class</tt> is <tt>private</tt>. <tt>struct</tt> is short for structure and all structures are classes and can also have member functions, constructors, private members, and member operators.</p>
+
+		<p>Copy assignment operators should always have one parameter that is a constant reference to an object of the same type and they should always return a reference to the current object being assigned to, which is always <tt>*this</tt>.</p>
+
+		<div class="section">Operator overloading</div>
+
+		<p>Creating a user-defined copy assignment operator inside of a class is one example of operator overloading. Other operators can be overloaded, such as the addition operator or the subscript operator.</p>
+
+		<p>Let's remake our the <tt>card</tt> again and instead of using strings, we will use <tt>unsigned int</tt> to represent the rank and suit:</p>
+
+		<code>
+struct card {
+	unsigned int rank;
+	unsigned int suit;
+};
+		</code>
+
+		<p>If I have two objects <tt>a</tt> and <tt>b</tt> of type <tt>card</tt>, the expression <tt>a == b</tt> would be invalid unless I overload the "equal to" operator. One way to do that would be to overload it as a member function:</p>
+
+		<code>
+struct card {
+	unsigned int rank;
+	unsigned int suit;
+
+	bool operator==(const card&amp; other) const
+	{
+		return rank == other.rank &amp;&amp; suit == other.suit;
+	}
+};
+		</code>
+
+		<p>You can also overload it as a free function:</p>
+
+		<code>
+struct card {
+	unsigned int rank;
+	unsigned int suit;
+};
+
+bool operator==(const card&amp; a, const card&amp; b)
+{
+	return a.rank == b.rank &amp;&amp; a.suit == b.suit;
+}
+		</code>
+
+		<p>If I wanted to allow the card to be inserted into an output stream, I can also overload the insertion operator for <tt>std::ostream</tt>:</p>
+
+		<code>
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const card&amp; c)
+{
+	return (os &lt;&lt; "card{" &lt;&lt; c.rank &lt;&lt; ',' &lt;&lt; c.suit &lt;&lt; '}');
+}
+		</code>
+
+		<p>Now the expression <tt>std::cout &lt;&lt; c</tt> for some <tt>card c</tt> is valid.</p>
+
+		<p>There are many operators you can overload for a class, not all of them can be overloaded as free functions, some of them can only be overloaded as member functions of the class, and a few operators cannot be overloaded at all.</p>
+
+		<p>See <a href="http://en.cppreference.com/w/cpp/language/expressions#Operators">http://en.cppreference.com/w/cpp/language/expressions#Operators</a> for a list of operators and their signatures for overloading.</p>
+
+	</body>
+</html>
