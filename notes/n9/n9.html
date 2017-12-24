@@ -1,0 +1,77 @@
+<html>
+	
+	<head>
+		<title>CSE 202: std::vector</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title"><tt>std::vector</tt></div>
+
+		<p>While <tt>std::string</tt> stores a resizeable character array, <tt>std::vector</tt> stores a resizeable array of any type. </p>
+
+		<p><tt>std::vector</tt> is not a type or class. It is a <i>class template</i> which you will learn more about towards the end of the course. <tt>std::vector</tt> represents a family of types for the storage and manipulation of a dynamic array. It is found in the <tt>&lt;vector&gt;</tt> header file. To generate a type from <tt>std::vector</tt>, <tt>std::vector</tt> must be <i>instantiated</i> by supplying a type to it's template parameter.</p>
+
+		<p>The declaration <tt>std::vector&lt;double&gt; v;</tt> creates a variable of type <tt>std::vector&lt;double&gt;</tt>.</p>
+
+		<p>Here are some operations supported by a vector for some variable <tt>v</tt> whose elements are for some type <tt>T</tt>:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>v = v2</tt></td>
+				<td>Copies all the elements from vector <tt>v2</tt> and assigns them to <tt>v</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v[i]</tt></td>
+				<td>Accesses the element of <tt>v</tt> at index <tt>i</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v.front()</tt></td>
+				<td>Accesses the first element of <tt>v</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v.back()</tt></td>
+				<td>Accesses the last element of <tt>v</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v.empty()</tt></td>
+				<td>Returns <tt>true</tt> if <tt>v</tt> has zero elements</td>
+			</tr>
+			<tr>
+				<td><tt>v.size()</tt></td>
+				<td>Returns the number of elements in <tt>v</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v.clear</tt></td>
+				<td>Deletes all elements from <tt>v</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v.push_back(x)</tt></td>
+				<td>Appends an element with value <tt>x</tt> to <tt>v</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v.pop_back()</tt></td>
+				<td>Deletes the last element from <tt>v</tt></td>
+			</tr>
+		</table>
+
+		<p>A vector also supports <tt>insert</tt> and <tt>erase</tt> like <tt>std::string</tt> does, but it requires the use of iterators which you will learn about soon.</p>
+
+		<p>A vector cannot be initialized from an initializer list unless your compiler is using C++11 or higher.</p>
+	</body>
+</html>

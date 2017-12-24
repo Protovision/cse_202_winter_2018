@@ -1,0 +1,75 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Aggregates</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Aggregates</div>
+
+		<div class="section">Array types</div>
+
+		<p>An array is a contiguous sequence of subobjects, all of which are of the same type. Each subobject of an array is called an "element" of that array and the type of every element is the "element type".</p>
+
+		<p>The declaration <tt>T a[N];</tt> creates the variable <tt>a</tt>: an array of <tt>N</tt> elements of element type <tt>T</tt>. The expression <tt>a[0]</tt> accesses the first element, <tt>a[1]</tt> accesses the second element, and so on until <tt>a[N-1]</tt> which accesses the last element.</p>
+
+		<p>Using the subscript operator to access an element gives you a reference to that element, so an expression like <tt>a[0] = x;</tt> for some value x of type <tt>T</tt> is valid.</p>
+
+		<p>When an array variable is declared with no initializer, every element is default initialized. For class type elements, this means the default constructor will be invoked for each of them; for non-class type elements, nothing is done.</p>
+
+		<p>Aside from default initialization, arrays can also be initialized through <i>aggregate initialization</i>.</p>
+
+		<p>Aggregate initialization is the initialization of an aggregate (such as an array) from an initializer list.</p>
+
+		<p>Here are examples of array initialization: </p>
+		<code>
+int a[5];			// indeterminate values
+int b[3] = { 3, -10, 21 };	// values 3, -10, and 21
+int c[100] = { 4, 1 };		// values 4, 1, and 0 for the rest
+int d[4] = {};			// 0 for all values
+		</code>
+	
+		<p>The rules for initializing an array from an initializer list is: each element in the array gets copy-initialized from each corresponding value in the initializer list. If there are not enough values in the initializer list or if the initializer list is empty, then the remaining elements get value initialized.</p>
+
+		<p>Arrays cannot be copy initialized or copy assigned. To achieve the same effect, you must assign each element manually.</p>
+
+		<p>An array variable can be declared with no size as long as it has an initializer, then the size can be deduced:</p>
+
+		<code>
+int x[] = { 4, 5, 6 };		// x implicitly has 3 elements
+		</code>
+
+		<div class="section">Class type aggregates</div>
+
+		<p>Aggregate initialization also applies to certain class types whose data members are all public access and there are no user-provided constructors.</p>
+
+		<p>For a class like:</p>
+
+		<code>
+struct coordinate {
+	double y, x;
+};
+		</code>
+
+		<p>A variable of that type can be initialized like the following:</p>
+
+<code>
+coordinate c = { 5.0, 6.0 };
+</code>
+
+		<p>A temporary object can also be created from an aggregate type by casting an initializer list to that type: <tt>(coordinate){ 2.0, -5.0 }</tt></p>
+
+	</body>
+</html>

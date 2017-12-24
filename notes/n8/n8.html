@@ -1,0 +1,190 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Strings</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Strings</div>
+
+		<div class="section">Null-terminated strings</div>
+
+		<p>A null-terminated string is an array of characters with the last character having the value zero.</p>
+
+		<p>There are actually different types of characters, hence there are different types of null-terminated strings. In this course we will focus on strings and null-terminated strings that use <tt>char</tt> as the element type.</p>
+
+		<p>Whenever you use a string literal such as <tt>"hello world"</tt>, the type of the value of that string literal is an array of <tt>N</tt> <tt>char</tt> where <tt>N</tt> is the number of characters in the string literal exluding the null (zero valued) character.</p>
+
+		<p>C++ has several standard functions for working with null-terminated strings, they can be found in <tt>&lt;cstring&gt;</tt>.</p>
+
+		<p>One of these functions is <tt>std::strcpy</tt>, it is used for copying the characters from one null-terminated string and assigning them to another character array.</p>
+
+		<code>
+char message[] = "hello world!";
+char message_copy[32];
+
+std::strcpy(message_copy, message);
+		</code>
+
+		<p>Another function, <tt>std::strlen</tt> calculates and returns the length of a null-terminated string. The length is the number of characters up to but not including the terminating null character.</p>
+
+		<div class="section"><tt>std::string</tt></div>
+		
+		<p>C++ offers a class called <tt>std::string</tt> which stores a resizeable sequence of characters. A null-terminated string can be assigned to an <tt>std::string</tt> object and an <tt>std::string</tt> has a member function for converting back into a null-terminated string.</p>
+
+		<p>In C++, null-terminated strings are the alternative to the easier-to-use and more modern <tt>std::string</tt>, or otherwise known as string. In the context of C++, string refers to <tt>std::string</tt> type and null-terminated string or c-string refers to the null-terminated character array type.</p>
+
+		<p>To use the <tt>std::string</tt> type you need to include <tt>&lt;string&gt;</tt>. Here are a few expressions on a <tt>std::string</tt> variable <tt>s</tt> and their meaning:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>s = s2</tt></td>
+				<td>Assigns the string or null-terminated string <tt>s2</tt> to <tt>s</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s[i]</tt></td>
+				<td>Accesses the character at index <tt>i</tt> in <tt>s</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s.c_str()</tt></td>
+				<td>Returns the null-terminated string equivalent to s</td>
+			</tr>
+			<tr>
+				<td><tt>s.empty()</tt></td>
+				<td>Returns true if <tt>s</tt> contains no characters</td>
+			</tr>
+			<tr>
+				<td><tt>s.size()</tt></td>
+				<td>Returns the number of characters in <tt>s</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s.clear()</tt></td>
+				<td>Deletes all characters in <tt>s</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s.insert(i, s2)</tt></td>
+				<td>Inserts the characters from <tt>s2</tt> into <tt>s</tt> starting at index <tt>i</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s.erase(i, n)</tt></td>
+				<td>Deletes <tt>n</tt> characters from <tt>s</tt> starting at index <tt>i</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s += s2</tt></td>
+				<td>Appends the characters from <tt>s2</tt> to <tt>s</tt> (This operator can also be used to append a single character).</td>
+			</tr>
+			<tr>
+				<td><tt>s.substr(i, n)</tt></td>
+				<td>Returns a new string that contains a copy of <tt>n</tt> characters from <tt>s</tt> starting at index <tt>i</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s.find(s2)</tt></td>
+				<td>Returns the index of character sequence in <tt>s</tt> that matches <tt>s2</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s + s2</tt></td>
+				<td>Returns a new string that is the concatenation of <tt>s</tt> and <tt>s2</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s == s2</tt></td>
+				<td>Returns true if the character sequence in <tt>s</tt> matches that in <tt>s2</tt></td>
+			</tr>
+			<tr>
+				<td><tt>s != s2</tt></td>
+				<td>Returns true if the character sequence in <tt>s</tt> does not match that in <tt>s2</tt></tr>
+			</tr>
+		</table>
+
+		<div class="section">Converting from strings to arithmetic types</div>
+
+		<p><tt>&lt;cstdlib&gt;</tt> contains functions for converting null-terminated strings to integers or floating-points.</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::atoi(s)</tt></td>
+				<td>Returns the integer value represented in <tt>s</tt> as a value of type <tt>int</tt>.</td>
+			</tr>
+			<tr>
+				<td><tt>std::atol(s)</tt></td>
+				<td>Returns the integer value represented in <tt>s</tt> as a value of type <tt>long int</tt>.</td>
+			</tr>
+			<tr>
+				<td><tt>std::atof(s)</tt></td>
+				<td>Returns the floating-point value represented in <tt>s</tt> as a value of type <tt>double</tt>.</td>
+			</tr>
+		</table>
+
+		<p>Remember, these functions expect a null-terminated string. If you are using an object of type <tt>std::string</tt>, you must invoke the <tt>c_str</tt> member function first.</p>
+
+		<div class="section">Character classification</div>
+
+		<p>The type <tt>char</tt>, which is the element type of a string, actually counts as an integral type.</p>
+
+		<p>The size of <tt>char</tt> is 8 bits and can hold a value from -128 to 127. For <tt>unsigned char</tt>, that value goes from 0 to 255.</p>
+
+		<p>Every character literal such as <tt>'A'</tt>, <tt>'$'</tt>, and <tt>'8'</tt> maps to an integer value which is determined by the ASCII table.</p>
+
+		<p>See <a href="http://en.cppreference.com/w/cpp/language/ascii">http://en.cppreference.com/w/cpp/language/ascii</a> for a list of characters and their corresponding integer values.</p>
+
+		<p>Character values can be categorized into alphabetic, digits, space, lowercase, uppercase, punctuation, etc.</p>
+
+		<p>The following functions from <tt>&lt;cctype&gt;</tt> can be used to classify characters:</p>
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::isalnum(c)</tt></td>
+				<td>Returns <tt>true</tt> if <tt>c</tt> is an alphanumeric character</td>
+			</tr>
+			<tr>
+				<td><tt>std::isalpha(c)</tt></td>
+				<td>Returns <tt>true</tt> if <tt>c</tt> is an alphabetic character</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::islower(c)</tt></td>
+				<td>Returns <tt>true</tt> if <tt>c</tt> is a lowercase character</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::isupper(c)</tt></td>
+				<td>Returns <tt>true</tt> if <tt>c</tt> is an uppercase character</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::isspace(c)</tt></td>
+				<td>Returns <tt>true</tt> if <tt>c</tt> is a space character</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::ispunct(c)</tt></td>
+				<td>Returns <tt>true</tt> if <tt>c</tt> is a punctuation character</tt></td>
+			</tr>
+		</table>
+
+		<div class="section"><tt>unsigned char</tt> and the byte</div>
+
+		<p>In C++, the "object representation" of an object refers to the sequence of <tt>unsigned char</tt> objects existing at the same location as that object in the computer.</p>
+
+		<p><tt>unsigned char</tt> is the type that represents a byte, which is always an 8-bit unsigned integer. Every object in your program is ultimately an array of bytes, and every type is an aspect applied to an array of bytes.</p>
+	</body>
+
+</html>
