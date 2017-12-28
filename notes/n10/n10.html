@@ -1,0 +1,138 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Pointers</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Pointers</div>
+
+		<p>Every named object, subobject of a named object, and function in a C++ program exists at a unique <i>address</i> in memory.</p>
+
+		<p>There are a family of types in C++ called pointers. Valid pointer values can be:</p>
+
+		<ul>
+			<li>The address to an object or function</li>
+			<li>The address right past the end of an object</li>
+			<li>The value 0</li>
+		</ul>
+
+		<p>The following example demonstrates the manipulation of one variable through a pointer to it:</p>
+
+		<code>
+int x;		// Declares x with type "int"
+int* p;		// Declares p with type "pointer to int"
+p = &amp;x;		// Assigns the address of x to p
+*p = 7;		// Dereference p and assign 7
+std::cout &lt;&lt; *p &lt;&lt; std::endl;
+std::cout &lt;&lt; x &lt;&lt; std::endl;
+		</code>
+
+		<p>The symbol <tt>*</tt>, when used in a declaration, is used to declare a pointer. When used on a pointer value within an expression, it is known as the indirection operator. The indirection operator gives you access to the object that the pointer refers to. From the example, the expression <tt>*p</tt> has the same value as <tt>x</tt> and the expression <tt>*p = 7</tt> has the same result as <tt>x = 7</tt>.</p>
+
+		<p><tt>&amp;</tt> is the address-of operator, when used on an object or function the result is a pointer to that entity.</p>
+
+		<div class="section">Pointers to array elements</div>
+
+		<p>An array exists as a contiguous sequence of elements in memory. The address of an array is the same as the address of it's first element.</p>
+		
+		<code>
+double a[3];
+double* p = &amp;a[0];
+*p = 5.0;
+++p;
+*p = 3.1;
+++p;
+*p = -4.2;
+std::cout &lt;&lt; a[0] &lt;&lt; ' ' &lt;&lt; a[1] &lt;&lt; ' ' &lt;&lt; a[2] &lt;&lt; std::endl;
+		</code>
+
+		<p>In the above example, the pointer <tt>p</tt> is initialized to the address of the first element of <tt>a</tt>. Because the elements exist sequentially in memory, incrementing <tt>p</tt> assigns the address of the next element to <tt>p</tt>. </p>
+
+		<p>You can iterate through an array using pointers instead of an index. In this example, the array of <tt>n</tt> &nbsp; <tt>double</tt>, <tt>a</tt>, gets displayed using pointers for iteration:</p>
+
+		<code>
+double* first = &amp;a[0];
+double* last = first + n;
+while (first != last) {
+	std::cout &lt;&lt; a[first++] &lt;&lt; ' ';
+}
+		</code>
+
+		<div class="section">Null pointers</div>
+
+		<p>A pointer with the value 0 is known as a null pointer. Null pointers do not point to any object or function and cannot be dereferenced.</p>
+
+		<p>Null pointers are used to indicate the absence of an object or an error condition.</p>
+		<p>A null pointer can be obtained by casting the integer literal 0 to a pointer type or through value initialization. For example, the expression <tt>(float*)0</tt> results in a null pointer to <tt>float</tt>. Also assigning the integer literal 0 to any pointer variable implicitly converts it to a pointer value.</p>
+
+		<div class="section">Void pointers</div>
+
+		<p>Pointers of type <tt>void*</tt> or <tt>const void*</tt> are known as pointers to void or void pointers. A void pointer points to an object(s) of unknown type.</p> 
+
+		<p>void pointers cannot be dereferenced but a pointer to any other type can be implicitly converted to a void pointer and a void pointer can be explicitly converted to a pointer to any other type.</p>
+
+		<code>
+int x;
+int* p1 = &amp;x;
+void* p2 = p1;		// p1 implicitly converted to void*
+int* p3 = (int*)p2;	// p2 explicitly converted to int*
+		</code>
+
+		<div class="section">Array-to-pointer decay</div>
+
+		<p>Array-to-pointer decay refers to the conditions when an array within an expression or declaration gets implicitly converted to a pointer to it's first element.</p>
+
+		<p>This happens when:</p>
+
+		<ul>
+			<li>A function parameter's type is an array type.</li>
+			<li>An array gets assigned to a pointer</li>
+		</ul>
+
+		<p>In the first case, a function such as <tt>void f(int a[]) {}</tt> actually gets replaced with <tt>void f(int* a) {}</tt> during compilation.</p>
+
+		<p>An array argument in a function call gets replaced with a pointer to that array's first element. So an expression like <tt>f(a)</tt>, where <tt>f</tt> is a function with an array parameter and <tt>a</tt> is an array, gets replaced with <tt>f(&amp;a[0]);</tt>.</p>
+
+		<p>In the second case, an expression such as <tt>p = a</tt> where <tt>p</tt> is a pointer and <tt>a</tt> is an array, gets replaced with <tt>p = &amp;a[0]</tt>.</p>
+
+		<p>The subscript operator still works with pointers. So pointers can still be treated like arrays.</p>
+
+		<div class="section">Pointer constness</div>
+
+		<table>
+			<tr>
+				<th>Type</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>const T*</tt></td>
+				<td>Pointer to constant T</td>
+			</tr>
+			<tr>
+				<td><tt>T const*</tt></td>
+				<td>Pointer to constant T</td>
+			</tr>
+			<tr>
+				<td><tt>T* const</tt></td>
+				<td>Constant pointer to T</td>
+			</tr>
+			<tr>
+				<td><tt>const T* const</tt></td>
+				<td>Constant pointer to constant T</td>
+			</tr>
+		</table>
+	</body>
+</html>
