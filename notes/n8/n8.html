@@ -90,12 +90,16 @@ std::strcpy(message_copy, message);
 				<td>Appends the characters from <tt>s2</tt> to <tt>s</tt> (This operator can also be used to append a single character).</td>
 			</tr>
 			<tr>
+				<td><tt>s.replace(i, n, s2)</tt></td>
+				<td>Equivalent to <tt>s.erase(i, n)</tt> followed by <tt>s.insert(i, s2)</tt></td>
+			</tr>
+			<tr>
 				<td><tt>s.substr(i, n)</tt></td>
 				<td>Returns a new string that contains a copy of <tt>n</tt> characters from <tt>s</tt> starting at index <tt>i</tt></td>
 			</tr>
 			<tr>
 				<td><tt>s.find(s2)</tt></td>
-				<td>Returns the index of character sequence in <tt>s</tt> that matches <tt>s2</tt></td>
+				<td>Returns the index of character sequence in <tt>s</tt> that matches <tt>s2</tt>. Returns <tt>std::string::npos</tt> if no match was found. The type of the value returned is <tt>std::string::size_type</tt> which is usually an alias for <tt>unsigned int</tt>.</td>
 			</tr>
 			<tr>
 				<td><tt>s + s2</tt></td>
@@ -177,6 +181,23 @@ std::strcpy(message_copy, message);
 			<tr>
 				<td><tt>std::ispunct(c)</tt></td>
 				<td>Returns <tt>true</tt> if <tt>c</tt> is a punctuation character</tt></td>
+			</tr>
+		</table>
+
+		<p>&lt;cctype&gt; also has functions for converting characters to upper or lowercase:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>(char)std::toupper(c)</tt></td>
+				<td>Converts <tt>c</tt> to uppercase</td>
+			</tr>
+			<tr>
+				<td><tt>(char)std::tolower(c)</tt></td>
+				<td>Converts <tt>c</tt> to lowercase</td>
 			</tr>
 		</table>
 

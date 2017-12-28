@@ -66,5 +66,30 @@ public:
 
 		<p><tt>explicit</tt> can also be used with copy constructors to disallow copy initialization but still allow direct initialization.</p>
 
+		<code>
+class A { 
+public:
+        explicit A(int b) {}
+};
+
+class B { 
+public:
+        B(int x) {}
+};
+
+int main()
+{
+        A a(12);        // OK: Direct initialization
+        A b = A(4);     // OK: Copy initialization from direct initialized nameless temporary
+        A c = 10;       // Compiler error: explicit disallows implicit conversion from 10 to A
+
+        B d = 8;        // OK: B's converting constructor has no explicit specifier. 
+                        // Copy initialization from nameless temporary created from implicit conversion
+                        // of 8 allowed.
+
+        return 0;
+}
+
+		</code>
 	</body>
 </html>
