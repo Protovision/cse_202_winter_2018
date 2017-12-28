@@ -75,7 +75,45 @@
 
 		<p>Remember that using <tt>std::string</tt> or <tt>std::getline</tt> requires that you include <tt>&lt;string&gt;</tt>.</p>
 
-		<p>When any of these I/O expressions are used within the condition of an <tt>if</tt> statement or loop, then the result will be converted to <tt>false</tt> if the I/O operationg failed.</p>
+		<p>When any of these I/O expressions are used within the condition of an <tt>if</tt> statement or loop, then the result will be converted to <tt>false</tt> if the I/O operation failed.</p>
+
+		<p>A program can read and process all character input with the following code:</p>
+
+		<code>
+char c;
+while (std::cin.get(c)) {
+	;
+}
+		</code>
+
+		<p>All lines can be read and processed using:</p>
+
+		<code>
+std::string line;
+while (std::getline(std::cin, line)) {
+	;
+}
+		</code>
+
+		<p>All words can be read and processed using:</p>
+
+		<code>
+std::string word;
+while (std::cin &gt;&gt; word) {
+	;
+}
+		</code>
+
+		<p>All numbers can be read and processed using:</p>
+		
+		<code>
+double number;
+while (std::cin &gt;&gt; number) {
+	;
+}
+		</code>
+
+		<p>For each of these cases, the user would enter CTRL-D to close standard input.</p>
 
 		<div class="section">Filter programs</div>
 
