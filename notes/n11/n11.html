@@ -1,0 +1,97 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Date and time</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Date and time</div>
+
+		<p>Before C++11, all date and time utilities were provided by the &lt;ctime&gt; header.</p>
+		<p>The first function that you usually use from this header is <tt>time</tt>, it is declared as:</p>
+		<code>
+std::time_t time(std::time_t* arg);
+		</code>
+
+		<p><tt>time</tt> returns the current time represented by the type <tt>std::time_t</tt>.</p>
+		
+		<p><tt>std::time_t</tt> is an opaque type, there is no guaranteed definition this type, but usually it is an alias for some unsigned integer.</p>
+
+		<p>If the argument supplied to <tt>arg</tt> is not a null pointer, then <tt>time</tt> will also store the <tt>std::time_t</tt> result at the address specified by <tt>arg</tt>.</p>
+
+		<p>There is not much you can do with a <tt>std::time_t</tt> by itself. With two <tt>std::time_t</tt> objects, you can compute the difference between them with the <tt>difftime</tt> function:</p>
+
+		<p><tt>std::difftime(final, initial)</tt> returns a <tt>double</tt> value that represents the difference, in seconds, between the <tt>std::time_t</tt> values <tt>final</tt> and <tt>initial</tt>.</p>
+
+		<p>The expression <tt>std::ctime(&amp;t)</tt> returns a null-terminated string (of type <tt>char*</tt>) containing a textual representation of the <tt>std::time_t</tt> object obtained from dereferencing <tt>&amp;t</tt>.</p>
+
+		<p><tt>std::localtime(&amp;t)</tt> takes the address of some <tt>std::time_t</tt> object <tt>t</tt>, and returns a pointer to a structure of type <tt>std::tm</tt> which contains a breakdown of the information within that <tt>std::time_t</tt> object. <tt>std::tm</tt> is defined as:</p>
+
+		<code>
+struct tm {
+	int tm_sec;	// Seconds after the minute: [0, 60]
+	int tm_min;	// Minutes after the hour: [0, 59]
+	int tm_hour;	// Hours since midnight: [0, 23]
+	int tm_mday;	// Day of the month: [1, 31]
+	int tm_mon;	// Months since January: [0, 11]
+	int tm_year;	// Years since 1900
+	int tm_wday;	// Days since Sunday: [0, 6]
+	int tm_yday;	// Days since January 1: [0, 365]
+	int tm_isdst;	// A positive value if Daylight Saving Time is in effect
+};
+		</code>
+
+		<p>Here is a very simple program that displays the current date and time:</p>
+
+		<code>
+#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+
+int main()
+{
+	std::time_t time;
+
+	std::time(&amp;time);
+	std::cout &lt;&lt; std::ctime(&amp;time) &lt;&lt; std::endl;
+	return 0;
+}
+		</code>
+
+		<p>Here is another simple program that tells you if it's Friday:</p>
+
+		<code>
+#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+
+int main()
+{
+        std::time_t time;
+        std::tm date;
+
+        std::time(&amp;time);
+        date = *std::localtime(&amp;time);
+        if (date.tm_wday == 5) {
+                std::cout &lt;&lt; "It's Friday" &lt;&lt;std::endl;
+        } else {
+                std::cout &lt;&lt;"It's not Friday" &lt;&lt; std::endl;
+        }   
+        return 0;
+}
+		</code>
+
+		<p>Notice that the return value from <tt>std::localtime</tt> is dereferenced. This is because <tt>std::localtime</tt> does not return a <tt>std::tm</tt> object, it returns a pointer to such an object. To save this object to our own local variable, we must dereference and copy-assign from it.</p>
+
+	</body>
+</html>
