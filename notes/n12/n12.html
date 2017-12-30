@@ -1,0 +1,108 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Namespaces</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Namespaces</div>
+
+		<div class="section">Using directive</div>
+
+		<p>Every entity that makes up the standard C++ libraries is declared inside of the <tt>std</tt> namespace.</p>
+
+		<p>You may have seen "hello world" C++ programs that use the declaration <tt>using namespace std;</tt>:</p>
+
+		<code>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+	cout &lt;&lt; "hello world" &lt;&lt; endl;
+	return 0;
+}
+		</code>
+
+		<p>If the declaration <tt>using namespace std;</tt> was moved inside the <tt>main</tt> function, then we can use <tt>cout</tt> and <tt>endl</tt> without qualifying them with <tt>std::</tt> but only until the end of the <tt>main</tt> function.</p>
+
+		<p>Since <tt>using namespace std;</tt> was declared in the <i>global namespace</i>, all names within the <tt>std</tt> namespace will be visible in <i>global scope</i>, accessible from anywhere within the same source file.</p>
+
+		<p>A declaration that begins with <tt>using namespace</tt> is known as a <i>using directive</i></p>
+
+		<p>The using directive can only be used within namespace scope (including global scope) or block scope (such as inside of a function, loop, or if statement). The using directive takes all names from inside a specified namespace and makes them visible as if they were declared in the nearest namespace that encloses both the specified namespace and the using directive.</p>
+
+		<p>Study and modify this example to get a handle on how namespaces work:</p>
+
+		<code>
+#include &lt;iostream&gt;
+using namespace std;
+
+namespace A { 
+        int i = 2;
+}
+
+namespace B { 
+        int j = 3;
+        namespace C { 
+                using namespace A;      // Makes names in A visible in global namespace until
+                int k = 4, l = 6;       // the end of namespace C.
+        }   
+        namespace D { 
+                int m = 7, n = 8;
+                namespace E { 
+                        using namespace C;      // Makes names in B::C visible in namespace B
+                        int o = 9;              // until the end of namespace E.
+                }   
+        }   
+}
+
+void f() 
+{
+        using namespace B::D::E;        // Makes names in B::D::E visible in global namespace
+                                        // until the end of function f. 
+
+        // Names made visible in global namespace are E::o, C::k, C::l, and A::i
+        cout &lt;&lt;  o &lt;&lt; ' ' &lt;&lt; k &lt;&lt; ' ' &lt;&lt; l &lt;&lt; ' ' &lt;&lt; i &lt;&lt; endl;
+}
+
+int main()
+{
+        f();
+        return 0;
+}
+		</code>
+
+		<div class="section">Using declaration</div>
+
+		<p>The hello world program can also be rewritten as:</p>
+
+		<code>
+#include &lt;iostream&gt;
+using std::cout;
+using std::endl;
+
+int main()
+{
+	cout &lt;&lt; "hello world!" &lt;&lt; endl;
+}
+		</code>
+
+		<p>Instead of a using directive, two <i>using declarations</i> make <tt>cout</tt> and <tt>endl</tt> visible in global scope; everything else in the <tt>std</tt> namespace will still need to be qualified with the scope resolution operator to be used.</p>
+
+		<p>A using declaration makes a name accessible within the same scope where this declaration appears.</p>
+
+	</body>
+</html>
