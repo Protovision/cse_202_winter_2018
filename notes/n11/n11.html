@@ -53,6 +53,8 @@ struct tm {
 };
 		</code>
 
+		<p><tt>std::mktime(&amp;date)</tt> does the reverse of <tt>std::localtime</tt>, it takes a pointer to a <tt>std::tm</tt> object and returns the <tt>std::time_t</tt> value that corresponds it.</p>
+
 		<p>Here is a very simple program that displays the current date and time:</p>
 
 		<code>
@@ -93,5 +95,58 @@ int main()
 
 		<p>Notice that the return value from <tt>std::localtime</tt> is dereferenced. This is because <tt>std::localtime</tt> does not return a <tt>std::tm</tt> object, it returns a pointer to such an object. To save this object to our own local variable, we must dereference and copy-assign from it.</p>
 
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::time(&amp;t)</tt></td>
+				<td>Stores the current time into the <tt>std::time_t</tt> variable <tt>t</tt></td>
+			</tr>
+			<tr>
+				<td><tt>t = std::time(0)</tt></td>
+				<td>Same as above</td>
+			</tr>
+			<tr>
+				<td><tt>std::difftime(f, i)</tt></td>
+				<td>Calculates the difference in seconds between the <tt>std::time_t</tt> values in <tt>f</tt> and <tt>i</tt>, the result is of type <tt>double</tt>.</td>
+			</tr>
+			<tr>
+				<td><tt>d = *std::localtime(&amp;t)</tt></td>
+				<td>Calculates the date corresponding to the <tt>std::time_t</tt> value in <tt>t</tt> and assigns it to the <tt>std::tm</tt> variable <tt>d</tt>.</td>
+			</tr>
+			<tr>
+				<td><tt>t = std::mktime(&amp;d)</tt></td>
+				<td>Calculates the time corresponding to the <tt>std::tm</tt> value in <tt>d</tt> and assigns it to the <tt>std::time_t</tt> variable <tt>t</tt>.</td>
+			</tr>
+			<tr>
+				<td><tt>std::ctime(&amp;t)</tt></td>
+				<td>Converts the <tt>std::time_t</tt> value in <tt>t</tt> to a null-terminated string.</td>
+			</tr>
+			<tr>
+				<td><tt>std::asctime(&amp;d)</tt></td>
+				<td>Converts the <tt>std::tm</tt> value in <tt>d</tt> to a null-terminated string.</td>
+			</tr>
+		</table>
+
+		<div class="section"><tt>std::get_time</tt> and <tt>std::put_time</tt></div>
+
+		<p>There are two I/O manipulators from &lt;iomanip&gt; for inserting and extracting <tt>std::tm</tt> objects. You might be able to use them without any special compilation options on certain C++ compilers; otherwise, they are standardized if you compile for C++11.</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::cin &gt;&gt; std::get_time(&amp;d, "%m/%d/%Y")</tt></td>
+				<td>Extracts, from standard input, a character sequence representing a date in the form MM/DD/YYYY and parses that into the <tt>std::tm</tt> variable <tt>d</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::cout &lt;&lt; std::put_time(&amp;d, "%m/%d/%Y")</tt></td>
+				<td>Inserts a textual representation, in the form of MM/DD/YYYY, of the date stored in the <tt>std::tm</tt> variable <tt>d</tt>. 
+			</tr>
+		</table>
 	</body>
 </html>
