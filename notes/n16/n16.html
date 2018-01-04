@@ -1,0 +1,105 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Random number generation</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Random number generation</div>
+
+		<p>C++ inherits the RNG utilities provided by the C standard library, they are found in the &lt;cstdlib&gt; header. They are:</p>
+		
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::srand(x)</tt></td>
+				<td>"Seeds" the pseudo-random number generator with integer value <tt>x</tt></td>
+			</tr>
+			<tr>
+				<td><tt>std::rand()</tt></td>
+				<td>Produces the next <tt>int</tt> value (from 0 to <tt>RAND_MAX</tt>) in the psuedo-random number sequence based on the initial value provided to <tt>std::srand</tt>. 
+			</tr>
+		</table>
+		
+		<p>Here is a simple program that generates 5 pseudo-random integers: </p>
+
+		<code>
+#include &lt;iostream&gt;
+
+int main()
+{
+	for (int i = 0; i &lt; 5; ++i) {
+		std::cout &lt;&lt; std::rand() &lt;&lt; endl;
+	}
+	return 0;
+}
+		</code>
+
+		<p>The problem with this program is that it displays the same 5 integers on every run. To get a different sequence of integers, the function <tt>std::srand</tt> should be invoked with some initial integer value which is called the "seed". Inserting a statement such as <tt>std::srand(123);</tt> at the beginning of <tt>main</tt> will result in a different generated sequence from <tt>std::rand</tt>.</p>
+
+		<p>However, even with a different seed value, the program will still display the same numbers on successive runs. To get a different sequence of numbers from the last program run, <tt>std::srand</tt> needs a different value on each run. A common practice is to seed the PRNG with the current time returned from <tt>std::time</tt>:</p>
+
+		<code>
+#include &lt;iostream&gt;
+#include &lt;ctime&gt;
+#include &lt;cstdlib&gt;
+
+int main()
+{
+	std::srand(std::time(0));
+	for (int i = 0; i &lt; 5; ++i) {
+		std::cout &lt;&lt; std::rand() &lt;&lt; endl;
+	}
+	return 0;
+}
+		</code>
+
+		<p>Now the generated values are seemingly random and different on each program run under the condition that the program is not ran more than once per second. If you run this program twice or more in the same second, you get the same sequence of values multiple times.</p>
+
+		<p><tt>std::srand</tt> and <tt>std::rand</tt>, while useful is obsolete compared to the PRNG utilities in C++11.</p>
+
+		<div class="section">Random number generation with C++11</div>
+
+		<p>C++11 introduces a robust prng library in &lt;random&gt;, it allows you to generate random numbers, including fractional numbers, distributed uniformly or over some statistical probability function. Here is a C++11 program that generates 5 random <tt>double</tt> values between 0.0 and 100.0 over a uniform distribution:</p>
+		
+		<code>
+#include &lt;iostream&gt;
+#incldue &lt;random&gt;
+
+int main()
+{
+	std::random_device rd;
+	std::default_random_engine re(rd());
+	std::uniform_real_distribution&lt;double&gt; rdist(0.0, 100.0);
+
+	for (int i = 0; i &lt; 5; ++i)
+		std::cout &lt;&lt; rdist(re) &lt;&lt; endl;
+	return 0;
+}
+		</code>
+
+		<p>To compile this program, random.cpp, with GCC use the following command:</p>
+
+		<code>
+g++ -std=c++11 random.cpp
+		</code>
+
+		<p>You are encouraged to try out C++11 features, but you won't be required to in this course.</p>
+	</body>
+
+</html>
