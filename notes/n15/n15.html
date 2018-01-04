@@ -1,0 +1,91 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Header files</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Header files</div>
+
+		<p>A header file only contains declarations. A header file is meant to be included with the #include directive from potentially multiple source files before being compiled with the appropriate source files that contain the matching definitions of that header file's declarations.</p>
+
+		<p>Here is an example of a header file named "example.h":</p>
+
+		<code>
+#ifndef EXAMPLE_H
+#define EXAMPLE_H
+
+namespace example {
+	void f();
+	typedef long double number_t;
+	class c {
+	public:
+		int a, b;
+		bool c;
+
+		void d();
+		int e() const;
+	};
+}
+
+#endif
+		</code>
+
+		<p>This header file contains a function declaration, typedef declaration, and a class declaration inside a namespace. The preprocessor directives in this header file prevent it from being included more than once within a single translation unit. </p>
+
+		<p>The source file, "example.cpp", that provides the definitions for this header file could look like:</p>
+
+		<code>
+#include "example.h"
+#include &lt;iostream&gt;
+
+void example::f()
+{
+	std::cout &lt;&lt; "f() called" &lt;&lt; std::endl;		
+}
+
+void example::c::d()
+{
+	a = 0;
+	b = 0;
+}
+
+int example::c::e() const
+{
+	return a + b;
+}
+		</code>
+
+		<p>The translation unit that contains your <tt>main</tt> function, let's call it "main.cpp", can then include "example.h", and use code declared from it:</p>
+
+		<code>
+#include "example.h"
+#include &lt;iostream&gt;
+
+int main()
+{
+	example::c c;
+	c.d();
+	c.a = 5;
+	c.b = 7;
+	example::f();
+	std::cout &lt;&lt; c.e() &lt;&lt; std::endl;
+	return 0;
+}
+		</code>
+
+		<p>The compilation command for GCC would be: <tt>g++ main.cpp example.cpp</tt></p>
+	</body>
+</html>

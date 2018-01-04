@@ -1,0 +1,98 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Storage duration</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Storage duration</div>
+
+		<div class="section">Automatic and static storage duration</div>
+
+		<p>All objects in C++ have a storage duration which affects that object's lifetime.</p>
+
+		<p>Named objects (variables) have their storage duration implicitly set depending on the scope in which they are defined. Variables declared in local scope have <i>automatic storage duration</i> by default, thus a variable declared anywhere inside a function has automatic storage duration by default. Variables defined in namespace scope always have <i>static storage duration</i>, thus any variable declared outside a function has static storage duration.</p>
+
+		<p>Objects with automatic storage duration last until the end of the block. Objects with static storage duration last until the end of the program.</p>
+
+		<p>When an object reaches the end of it's lifetime, it gets destroyed. If an object is a class type object, then it's destructor gets invoked right before it gets destroyed.</p>
+
+		<p>The following program let's you see the order of initialization and destruction of variables t1 and t2. Since t1 is declared in namespace scope, it has static storage duration and it has a longer lifetime than t1 which has automatic storage duration.</p>
+		<code>
+#include &lt;iostream&gt;
+
+struct T { 
+        T() { std::cout &lt;&lt; "T constructor, this = " &lt;&lt; this &lt;&lt; std::endl; }
+        ~T() { std::cout &lt;&lt; "T destructor, this = " &lt;&lt; this &lt;&lt; std::endl; }
+};
+
+T t1;
+
+int main()
+{
+        std::cout &lt;&lt; "Press enter to continue..." &lt;&lt; std::flush;
+        std::cin.get();
+
+        T t2; 
+
+        return 0;
+}
+		</code>
+
+	<div class="section">Static local variables</div>
+
+	<p>A local variable declared with the <tt>static</tt> specifier will have static storage duration instead of the usual automatic storage duration. A static local variable's lifetime is not bound to the scope of the function like other local variables are, thus it only gets initialized once during the first call to the function and it gets destroyed during program termination.</p>
+
+	<p>This function uses a static local variable to keep track of the number of times it's called:</p>
+
+	<code>
+void f()
+{
+	static int calls = 0;
+
+	std::cout &lt;&lt; "f() call count: " &lt;&lt; ++calls &lt;&lt; std::endl;
+}
+	</code>
+
+	<div class="section">Dynamic storage duration</div>
+
+	<p>An object created with a <i>new expression</i> has dynamic storage duration. Here are 3 ways you can create an object with a new expression: </p>
+
+	<code>
+int* a = new int;	// Default initialized dynamic storage
+int* b = new int();	// Value initialized dynamic storage
+int* c = new int(4);	// Direct initialized dynamic storage
+	</code>
+
+	<p>Objects with dynamic storage duration last until they are manually destroyed with a <i>delete expression</i>. All objects created with <tt>new</tt> must be destroyed with <tt>delete</tt>, so the above example must be matched with:</p>
+	
+	<code>
+delete c;
+delete b;
+delete a;
+	</code>
+	
+	<p>at some point before the program terminates. Arrays can also be created with <tt>new</tt>:</p>
+
+	<code>
+int* d = new int[100];	// Dynamic storage array with default-initialized elements
+int* e new int[100]();	// Dynamic storage array with value-initialized elements
+// ...
+delete[] e;
+delete[] d;
+	</code>
+
+	</body>
+</html>
