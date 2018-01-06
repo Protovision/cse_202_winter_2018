@@ -1,0 +1,110 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Iterators</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Iterators</div>
+
+		<p>Almost every C++ container, such as <tt>std::vector</tt> includes a <tt>begin</tt> and <tt>end</tt> member function. They both return an object of type <tt>C::iterator</tt> where <tt>C</tt> is the instantiated container type.</p>
+
+		<p>An iterator is like a pointer to one of the elements in a container. A vector iterator supports all the operations which are similar to the operations supported by a pointer to an array element; this includes adding/subtracting to jump between elements and dereferencing to access the referred to element's value.</p>
+
+		<p>Suppose there is a <tt>std::vector&lt;int&gt; v</tt>, then to iterate through that vector using an iterator would look like:</p>
+
+		<code>
+for (std::vector&lt;int&gt;::iterator it = v.begin(); it != v.end(); ++it) {
+	// ...
+}
+		</code>
+
+		<p>The <tt>begin</tt> member function returns an iterator to the first element of the vector and the <tt>end</tt> member function returns an iterator to the non-existing element right past the last element.</p>
+
+		<div class="section">Iterator expressions</div>
+
+		<p>Here is a table showing expressions that use an iterator for a hypothetical <tt>std::vector&lt;int&gt; v</tt> and their corresponding equivalent expression:</p>
+
+		<table>
+			<tr>
+				<th>Expression using an iterator</th>
+				<th>Equivalent expression</th>
+			</tr>
+			<tr>
+				<td><tt>*v.begin() = 4</tt></td>
+				<td><tt>v[0] = 4</tt></td>
+			</tr>
+			<tr>
+				<td><tt>*(v.begin() + 2) = 10;</tt></td>
+				<td><tt>v[2] = 10</tt></td>
+			</tr>
+			<tr>
+				<td><tt>*(v.end() - 1) = 25;</tt></td>
+				<td><tt>v[v.size() - 1] = 25;</tt></td>
+			</tr>
+			<tr>
+				<td><tt>*(v.end() - v.size())</tt></td>
+				<td><tt>v[0]</tt></td>
+			</tr>
+			<tr>
+				<td><tt>*(v.begin() + v.size() - 1)</tt></td>
+				<td><tt>v[v.size() - 1]</tt></td>
+			</tr>
+		</table>
+
+		<p>Once you know how to use iterators, inserting and erasing elements from any standard container should be easy.</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>v.insert(v.begin() + 4, 24)</tt></td>
+				<td>Inserts a new element, containing the value 24, into v at index 4.</td>
+			</tr>
+			<tr>
+				<td><tt>v.erase(v.end() - 1)</tt></td>
+				<td>Erases the last element of v</td>
+			</tr>
+		</table>
+		<div class="section">Iterator ranges</div>
+
+		<p>Two iterators that are associated with the same container or array represents a range of elements. Many functions in the C++ standard template library require two iterators, <tt>first</tt> and <tt>last</tt>, which indicate a range, [<tt>first</tt>, <tt>last</tt>), of elements to manipulate or process.</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>v.insert(v.begin() + 10, u.begin(), u.end())</tt></td>
+				<td>Copies the elements from u and inserts them into v at index 10</td>
+			</tr>
+			<tr>
+				<td><tt>v.insert(v.end(), u.begin() + u.size() / 2)</tt></td>
+				<td>Copies the first half of elements from u and appends them to v</td>
+			</tr>
+			<tr>
+				<td><tt>v.erase(v.begin(), v.end())</tt></td>
+				<td>Erases all elements from v, equivalent to <tt>v.clear()</tt></td>
+			</tr>
+			<tr>
+				<td><tt>v.erase(v.begin() + 2, v.begin() + 5)</tt></td>
+				<td>Erases 2 elements from v starting at index 2.</td>
+			</tr>
+		</table>
+	</body>
+</html>

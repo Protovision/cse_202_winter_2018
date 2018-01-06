@@ -1,0 +1,120 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Map</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title"><tt>std::map</tt></div>
+
+		<p><tt>std::map</tt> is another standard C++ container like <tt>std::vector</tt> is. Unlike <tt>std::vector</tt>, <tt>std::map</tt> is not a sequence container; it is an associative container.</p>
+
+		<p>A map is instantiated with a key type and a mapped type. The element type of a map is a pair containing a key type value and a mapped type value. For example, the element type of <tt>std::map&lt;std::string, double&gt;</tt> is <tt>std::map&lt;std::string, double&gt;::value_type</tt> which is an alias for <tt>std::pair&lt;const std::string, double&gt;</tt>.</p>
+
+		<p>No two elements can contain the same key value in a map.</p>
+
+		<p>A map element can be accessed by specifying the key of that element. Map elements can be created or accessed with the subscript operator:</p>
+
+		<code>
+#include &lt;map&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+	std::map&lt;std::string, double&gt; coins;
+
+	// Creating map elements
+	coins["penny"] = 1.0;
+	coins["nickel"] = 5.0;
+	coins["dime"] = 10.0;
+	coins["quarter"] = 25.0;
+
+	//Iterating through map elements
+	for (std::map&lt;std::string, double&gt;::iterator it = coins.begin(); it != coins.end(); ++it) {
+		std::cout &lt;&lt; it-&gt;first &lt;&lt; " -&gt; " it-&gt;second &lt;&lt; std::endl;
+	}
+
+	return 0;
+}
+		</code>
+
+		<p>For each pair stored in a map, the data member <tt>first</tt> refers to the key value and the data member <tt>second</tt> refers to the mapped value. Once an element is created, it's key value cannot be changed.</p>
+
+		<div class="section">Map operations</div>
+
+		<p>Suppose there is a <tt>std::map&lt;std::string, std::string&gt; m</tt>, then the following operations are supported:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>m["foo"]</tt></td>
+				<td>Accesses the element containing the key value "foo", creating the element if it doesn't exist.</td>
+			</tr>
+			<tr>
+				<td><tt>m.begin()</tt></td>
+				<td>Returns an iterator to the first element</td>
+			</tr>
+			<tr>
+				<td><tt>m.end()</tt></td>
+				<td>Returns an iterator that follows the last element</td>
+			</tr>
+			<tr>
+				<td><tt>m.empty()</tt></td>
+				<td>Returns true if m contains zero elements</td>
+			</tr>
+			<tr>
+				<td><tt>m.size()</tt></td>
+				<td>Returns the number of elements in m</td>
+			</tr>
+			<tr>
+				<td><tt>m.clear()</tt></td>
+				<td>Erases all elements from m</td>
+			</tr>
+			<tr>
+				<td><tt>m.insert(x)</tt></td>
+				<td>Inserts the value x into m. Equivalent to <tt>m[x.first] = x.second</tt></td>
+			</tr>
+			<tr>
+				<td><tt>m.insert(first, last)</tt></td>
+				<td>Inserts the values within the range [first, last) into m. Equivalent to <tt>while (first != last) m.insert(*first++);</tt></td>
+			</tr>
+			<tr>
+				<td><tt>m.erase("foo")</tt></td>
+				<td>Erases the element containing the key value "foo"</td>
+			</tr>
+			<tr>
+				<td><tt>m.erase(it)</tt></td>
+				<td>Erases the element specified by the iterator it.</td>
+			</tr>
+			<tr>
+				<td><tt>m.erase(first, last)</tt></td>
+				<td>Erases the elements within the range [first, last) from m.</td>
+			</tr>
+			<tr>
+				<td><tt>m.swap(n)</tt></td>
+				<td>Swaps the contents of maps m and n</td>
+			</tr>
+			<tr>
+				<td><tt>m.find("foo")</tt></td>
+				<td>Returns an iterator to the element containing the key value "foo". Returns <tt>m.end()</tt> if the element was not found.</td>
+			</tr>
+		</table>
+
+	</body>
+
+</html>

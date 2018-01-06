@@ -19,7 +19,7 @@
 
 		<div class="title">Random number generation</div>
 
-		<p>C++ inherits the RNG utilities provided by the C standard library, they are found in the &lt;cstdlib&gt; header. They are:</p>
+		<p>C++ inherits the PRNG (Psuedorandom number generator) utilities provided by the C standard library, they are found in the &lt;cstdlib&gt; header. They are:</p>
 		
 		<table>
 			<tr>
@@ -71,7 +71,7 @@ int main()
 
 		<p>Now the generated values are seemingly random and different on each program run under the condition that the program is not ran more than once per second. If you run this program twice or more in the same second, you get the same sequence of values multiple times.</p>
 
-		<p><tt>std::srand</tt> and <tt>std::rand</tt>, while useful is obsolete compared to the PRNG utilities in C++11.</p>
+		<p><tt>std::srand</tt> and <tt>std::rand</tt>, while useful, are obsolete compared to the PRNG utilities in C++11.</p>
 
 		<div class="section">Random number generation with C++11</div>
 

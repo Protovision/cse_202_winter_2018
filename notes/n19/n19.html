@@ -1,0 +1,141 @@
+<html>
+	
+	<head>
+		<title>CSE 202: STL Algorithms</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">STL Algorithms</div>
+
+		<p>The algorithms library, included from &lt;algorithm&gt;, contains functions that operate on element ranges through the use of iterators.</p>
+	
+		<div class="section">Non-modifying sequence operations</div>
+
+		<p>Many of these function are intended for sequence containers. 2 useful, non-modifying sequence operations are:</p>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::count(first, last, x)</tt></td>
+				<td>Returns the number of elements from the range [first, last) that equal x.</td>
+			</tr>
+			<tr>
+				<td><tt>std::find(first, last, x)</tt></td>
+				<td>Returns an iterator to the first element from the range [first, last) that equals x. Returns last if not found.</td>
+			</tr>
+		</table>
+
+		<p>There is also <tt>std::count_if(first, last, p)</tt> and <tt>std::find_if(first, last p)</tt> that work similarly but they require a "predicate" instead of a value for the last argument.</p>
+
+		<p>A predicate is either of the following:</p>
+
+		<ul>
+			<li>A function that has a boolean return type and exactly one parameter of the necessary element type.</li>
+			<li>A class type with an overloaded function call operator that matches the above description.</li>
+		</ul>
+
+		<p>A function call to a predicate returns true if it's argument satisfies some criteria. If there is a <tt>std::vector&lt;int&gt; v</tt> and I wanted to count all the odd numbers in that vector, then count_if could be used:</p>
+
+		<code>
+// In namespace scope:
+bool is_odd(int x) { return x % 2 == 1; }
+// ...
+// In block scope:
+std::cout &lt;&lt; "v contains " &lt;&lt; std::count_if(v.begin(), v.end(), is_odd) &lt;&lt; " odd integers" &lt;&lt; std::endl;
+		</code>
+
+		<p>If the element type has an object size larger than a fundamental type, then your predicate's parameter should be a constant reference to the element type rather than a copy of it.</p>
+
+		<div class="section">Modifying sequence operations</div>
+
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::copy(first, last, d_first)</tt></td>
+				<td>Assigns the elements from the range [first, last) to the elements beginning at d_first</td>
+			</tr>
+			<tr>
+				<td><tt>std::fill(first, last, x)</tt></td>
+				<td>Assigns x to all the elements in the range [first, last)</td>
+			</tr>
+			<tr>
+				<td><tt>std::generate(first, last, g)</tt></td>
+				<td>Assigns each return value of <tt>g()</tt> to each element in the range [first, last)</td>
+			</tr>
+			<tr>
+				<td><tt>std::replace(first, last, x, y)</tt></td>
+				<td>Replaces all occurrences of the value <tt>x</tt> with the value <tt>y</tt> in the range [first, last)</td>
+			</tr>
+			<tr>
+				<td><tt>std::reverse(first, last)</tt></td>
+				<td>Reverses the order of elements in the range [first, last)</td>
+			</tr>
+		</table>
+
+		<p>You can generate a vector of 100 random integers using the following code:</p>
+
+		<code>
+std::vector&lt;int&gt; v;
+v.resize(100);
+std::srand(std::time(0));
+std::generate(v.begin(), v.end(), std::rand);
+		</code>
+
+		<div class="section">Searching and sorting operations</div>
+
+		<p>In addition to <tt>std::find</tt>:</p>
+		
+		<table>
+			<tr>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>std::sort(first, last)</tt></td>
+				<td>Sorts the element in the range [first, last)</td>
+			</tr>
+			<tr>
+				<td><tt>std::binary_search(first, last, x)</tt></td>
+				<td>Like <tt>std::find</tt> except the range to search in must already be sorted. This function also works with predicates.</td>
+			</tr>
+			<tr>
+				<td><tt>std::min_element(first, last)</tt></td>
+				<td>Returns an iterator to the element containing the minimum value</td>
+			</tr>
+			<tr>
+				<td><tt>std::max_element(first, last)</tt></td>
+				<td>Returns an iterator to the element containing the maximum value</td>
+			</tr>
+		</table>
+
+		<div class="section"><tt>std::swap, std::min, std::max</tt></div>
+
+		<p>swap, min, and max have two parameters</p>
+
+		<p><tt>std::swap</tt> swaps the contents of two variables. This function works with <tt>std::string</tt>, any standard container type, any fundamental type, and any aggregate type.</p>
+
+		<p><tt>std::min</tt> and <tt>std::max</tt> return the value that is lesser or greater respectively.</p>
+
+		<div class="section"><tt>std::random_shuffle</tt></div>
+
+		<p>random_shuffle shuffles the element in a range, usually by using <tt>std::rand</tt> within the implementation. To shuffle a vector named v, just call <tt>std::random_shuffle(v.begin(), v.end())</tt> after making sure the random number generator has been seeded once with <tt>std::srand</tt>.</p>
+	</body>
+</html>
