@@ -1,0 +1,55 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Lab 2</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+		
+		<ul class="nav">
+			<li><a href="../../index.html">Announcements</a></li>
+			<li><a href="../../syllabus.html">Syllabus</a></li>
+			<li><a href="../../notes.html">Lecture notes</a></li>
+			<li><a href="../../labs.html">Labs</a></li>
+			<li><a href="../../quizzes.html">Quizzes</a></li>
+			<li><a href="../../external.html">External links</a></li>
+		</ul>
+
+		<div class="title">Lab 2</div>
+
+		<p>You may use the following function in your program to generate a random integer.</p>
+
+		<code>
+#include &lt;cstdlib&gt;
+#include &lt;ctime&gt;
+
+unsigned int random_integer()
+{
+	static bool is_seeded;
+	
+	if (!is_seeded) {
+		std::srand(std::time(0));
+		is_seeded = true;
+	}
+	return std::rand();
+}
+		</code>
+
+		<p>For this lab, you will create a game where the user bets on dice rolls</p>
+
+		<p>In your program, the user starts off with 30 coins. The program will repeatedly do the following:</p>
+
+		<ol>
+			<li>If the user is out of coins, the program stops.</li>
+			<li>The program displays how many coins the user has.</li>
+			<li>The user chooses to pay 0, 1, 2, or 3 coins</li>
+			<li>If the user chooses 0, then the program stops.</li>
+			<li>The program will simulate a dice roll be generating and displaying 2 random integers, each being a value from 1 to 6.</li>
+			<li>If both random integers end up having the same value, the user gains coins equal to 3 multiplied by the number of coins they paid.</li>
+		</ol>
+
+	</body>
+</html>
+
