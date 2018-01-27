@@ -14,7 +14,7 @@ unsigned int random_integer()
 
 unsigned int roll_die()
 {
-	return (random_integer() % 5 + 1);
+	return (random_integer() % 6 + 1);
 }
 
 int main()
