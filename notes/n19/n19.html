@@ -126,6 +126,24 @@ std::generate(v.begin(), v.end(), std::rand);
 			</tr>
 		</table>
 
+		<p><tt>min_element</tt> and <tt>max_element</tt> can optionally take a third argument, a function to use for comparing the elements; this third argument is useful when, for example, you wanted to find an element in a map that contains the maximum mapped value.</p>
+
+		<p>Suppose you have a <tt>map&lt;string, double&gt; grades;</tt> which stores the name and current assignment grade of each student. You also have the following function defined:</p>
+
+		<code>
+bool compare_grades(const pair&lt;const string, double&gt;&amp; a, const pair&lt;const string, double&gt;&amp; b)
+{
+	return a.second &lt; b.second;
+}
+		</code>
+		
+		<p>Then to acquire an iterator to the student with the highest grade, <tt>max_element</tt> would be called as follows:</p>
+
+		<code>
+map&lt;string, double&gt;::iterator it = max_element(grades.begin(), grades.end(), compare_grades);
+cout &lt;&lt; "The student " &lt;&lt; it-&gt;first &lt;&lt; " has the highest grade with a score of " &lt;&lt; it-&gt;second; &lt;&lt; endl;
+		</code>
+
 		<div class="section"><tt>std::swap, std::min, std::max</tt></div>
 
 		<p>swap, min, and max have two parameters</p>
