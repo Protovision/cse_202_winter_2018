@@ -1,0 +1,78 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Lab 6</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+		
+		<ul class="nav">
+			<li><a href="../../index.html">Announcements</a></li>
+			<li><a href="../../syllabus.html">Syllabus</a></li>
+			<li><a href="../../notes.html">Lecture notes</a></li>
+			<li><a href="../../labs.html">Labs</a></li>
+			<li><a href="../../quizzes.html">Quizzes</a></li>
+			<li><a href="../../external.html">External links</a></li>
+		</ul>
+
+		<div class="title">Lab 6</div>
+
+		<p>Create a program that reads all real numbers from standard input and displays the mean, median, modes, and range of the sequence. Your program should not display anything if fewer than two numbers were read.</p>
+
+		<p>The mean is the sum of all the numbers divided by the size of the sequence.</p>
+
+		<p>The median is the value of the middle number when the sequence is sorted (in ascending order). If two numbers are in the middle of the sorted sequence, then the median is the sum of those two numbers divided by 2.</p>
+
+		<p>The mode is the number that occurs the most in the sequence. For this program, if there is no mode, then do not display a mode; if there is more than one mode, then display all of the modes.</p>
+
+		<p>The range is the difference between the largest and smallest values in the sequence.</p>
+
+		<p>In your program, store the numbers as type <tt>double</tt> and do not use arrays. You are encouraged to use <tt>vector</tt>, <tt>map</tt>, and the functions found in &lt;algorithm&gt; to complete this lab.</p>
+
+		<div class="subsection">Example of a working program</div>
+
+		<code>
+1 2 2 3 4 7 9 9
+Mean: 4.625
+Median: 3.5
+Modes: 2 9
+Range: 8
+		</code>
+<!--
+		<p>Each of the programs that you will create in this lab requires 1 command-line argument. The command-line argument represents a 5 card playing hand from a 52 card deck. For example "QH 10H AC 6D 4S" represents Queen of Hearts, 10 of Hearts, Ace of Clubs, 6 of Diamonds, and 4 of Spades.</p>
+
+		<p>These programs will classify the hand and produce an exit code of 0 if the classification is true and 1 otherwise. There will be no standard output from these programs. The exit code of a program is the integer value returned from it's main function. To query the exit code of a program, use the command <tt>echo $?</tt> in bash.</p>
+
+		<ol>
+			<li>
+				<p>Create a program that determines if a playing hand is a one pair (2 cards of one rank and 3 cards of three other ranks)</p>
+			</li>
+			<li>
+				<p>Create a program that determines if a playing hand is a two pair (2 cards of one rank, 2 cards of a second rank, and 1 card of a third rank).</p>
+			</li>
+			<li>
+				<p>Create a program that determines if a playing hand is a three of a kind (3 cards of one rank, 2 cards of two other ranks)</p>
+			</li>
+			<li>
+				<p>Create a program that determines if a playing hand is a straight (5 cards of sequential rank, not all of the same quit).</p>
+			</li>
+			<li>
+				<p>Create a program that determines if a playing hand is a flush (5 cards of the same suit, not of sequential rank).</p>
+			</li>
+			<li>
+				<p>Create a program that determines if a playing hand is a full house (3 cards of one rank and 2 cards of another rank).</p>
+			</li>
+			<li>
+				<p>Create a program that determines if a playing hand is a four of a kind (4 cards of the same rank and 1 card of a different rank).</p>
+			</li>
+			<li>
+				<p>Create a program that determines if a playing hand is a straight flush (5 cards of sequential rank, all of the same suit).</p>
+			</li>
+		</ol>
+
+		<p><b>Important:</b> In any hand classification that depends on sequential ranks, an Ace can count as a low rank or high rank, but not both.</p>
+-->
+	</body>
+</html>
