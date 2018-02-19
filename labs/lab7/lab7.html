@@ -62,5 +62,10 @@ a named object
 		<p>creates a new definition for "class" and the command <tt>./define "class"</tt> can now be used to look up that definition at a later time.</p>
 
 		<p>You may add informational messages to your program such as "Definition created.", "Definition updated.", or "Definition not found" but these are optional.</p>
+
+		<div class="section">Implementation hint</div>
+
+		<p>One way you can implement this program is to load the defintions from the file into a <tt>map&lt;string, string&gt;</tt>, from here the definitions can easily be modified through the map. Before the program terminates, the updated definitions in the map should be saved to the file.</p>
+
 	</body>
 </html>
