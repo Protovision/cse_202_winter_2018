@@ -1,0 +1,66 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Lab 7</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+		
+		<ul class="nav">
+			<li><a href="../../index.html">Announcements</a></li>
+			<li><a href="../../syllabus.html">Syllabus</a></li>
+			<li><a href="../../notes.html">Lecture notes</a></li>
+			<li><a href="../../labs.html">Labs</a></li>
+			<li><a href="../../quizzes.html">Quizzes</a></li>
+			<li><a href="../../external.html">External links</a></li>
+		</ul>
+
+		<div class="title">Lab 7</div>
+
+		<div class="section">Extended deadline</div>
+
+		<p>You will have extra time to work on this lab since the midterm is this week.</p>
+
+		<p>For students with the Tuesday lab section, this lab is due on February 27.</p>
+
+		<p>For students with the Thursday lab section, this lab is due on Match 1.</p>
+
+		<div class="section">Program summary</div>
+
+		<p>You will create a program that will "remember" definitions of words or phrases, it will do so by storing words/phrases and their associated definitions into a file named "definitions.txt".</p>
+
+		<div class="section">Program compilation</div>
+
+		<p>Name your source file "define.cpp" and name your program "define" by compiling it with the following command:</p>
+
+		<code>
+g++ -o define define.cpp
+		</code>
+
+		<div class="section">Program usage</div>
+
+		<p>If <tt>define</tt> is ran with 1 command-line argument, it will display the definition of that word/phrase specified by that argument. For example, if "definitions.txt" contained the definition "a named object" for "variable", then the command:</p>
+
+		<code>
+./define "variable"
+		</code>
+
+		<p>would display:</p>
+
+		<code>
+a named object
+		</code>
+
+		<p>If <tt>define</tt> is ran with 2 command-line arguments, it will create a new definition or replace an existing one in the file "definitions.txt". For example, the command:</p>
+
+		<code>
+./define "class" "a user-defined type"
+		</code>
+
+		<p>creates a new definition for "class" and the command <tt>./define "class"</tt> can now be used to look up that definition at a later time.</p>
+
+		<p>You may add informational messages to your program such as "Definition created.", "Definition updated.", or "Definition not found" but these are optional.</p>
+	</body>
+</html>

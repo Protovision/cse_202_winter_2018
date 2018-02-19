@@ -1,0 +1,133 @@
+<html>
+	
+	<head>
+		<title>CSE 202: File I/O</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">File I/O</div>
+
+		<p>The standard C++ I/O library provides a collection of headers for performing I/O. I/O stands for input/output, it refers to any process of data communication involving a machine or computer.</p>
+
+		<p>In this library, I/O is performed through high-level input/output interfaces known as streams. Up to this point, you have already been using 2 predefined streams in C++: <tt>std::cin</tt> and <tt>std::cout</tt>; their types are <tt>std::istream</tt> and <tt>std::ostream</tt>, respectively. As you can guess, istream stands for "input stream" and ostream stands for "output stream". There is also a 3rd type of stream named iostream. </p>
+
+		<p>The header &lt;fstream&gt; contains <tt>std::fstream</tt>, a class for performing I/O on files.</p>
+
+
+		<p>Here is a simple program that displays the contents of a file specified as a command-line argument:</p>
+
+		<code>
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+	if (argc != 2) {
+		cout &lt;&lt; "Usage: " &lt;&lt; argv[0] &lt;&lt; " FILENAME" &lt;&lt; endl;
+		return 1;
+	}
+
+	char c;
+	fstream fs(argv[1], fstream::in);
+
+	while (fs.get(c)) cout.put(c);
+	return 0;
+}
+		</code>
+
+		<p>In the declaration statement <tt>fstream fs(argv[1], fstream::in)</tt>, we are creating a file stream object named <tt>fs</tt>; the values <tt>argv[1]</tt> and <tt>fstream::in</tt>, being used for the direct-initialization of this object, are for supplying the file name and open mode for this file stream.</p>
+
+		<p>When a file stream is initialized with a file name and open mode, the stream will attempt to open the specified file from the computer's file system. The open mode specifies the way this file should be opened. In our example, <tt>fstream::in</tt> means to open the file for input only.</p>
+
+		<p>After a file stream is initialized with <tt>fstream::in</tt>, input operations can be performed on the stream but no output operations are allowed. Input operations include the use of: the <tt>get</tt> member function, the <tt>getline</tt> function, and the stream extraction operators.</p>
+		
+
+		<p>Here's another example that uses a different open mode: <tt>fstream::app</tt>. This simple program will append one line of user input to a file named "memos.txt":</p>
+
+		<code>
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main()
+{
+	string memo;
+	fstream fs("memos.txt", fstream::app);
+
+	if (!getline(cin, memo)) return 1;
+	fs &lt;&lt; memo &lt;&lt; endl;
+	return 0;
+}
+		</code>
+
+		<p>Once you know the different ways to open a file, using a file stream is, is for the most part, the same as using <tt>std::cin</tt> or <tt>std::cout</tt>.</p>
+
+		<p>Here some commonly used open modes for <tt>fstream</tt> (for a full list of open modes see <a href="http://en.cppreference.com/w/cpp/io/basic_filebuf/open">the <tt>std::basic_filebuf::open</tt> page from cppreference.com</a>): </p>
+
+		<table>
+			<tr>
+				<th>Open mode</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>fstream::in</tt></td>
+				<td>Open the file for input starting at the beginning of the file</td>
+			</tr>
+			<tr>
+				<td><tt>fstream::out</tt></td>
+				<td>Create the file for output starting at the beginning of the file. If the file already exists, delete it first.</td>
+			</tr>
+			<tr>
+				<td><tt>fstream::app</tt></td>
+				<td>Open or create the file for output starting at the end of the file</td>
+			</tr>
+		</table>
+
+		<p>It is possible to open a file for both input and output, but you will not be required to do so in this course.</p>
+
+		<p>An <tt>fstream</tt> object does not need to be associated with a file as soon as it's declared. An <tt>fstream</tt> variable can be declared with no initializer and later it can be associated with a file using the <tt>open</tt> member function. It may also be disassociated from a file using the <tt>close</tt> member function. This means you can use one <tt>fstream</tt> object to perform I/O on different files throughout the duration of the program.</p>
+
+		<p>Here is a variation of the first <tt>fstream</tt> example, it takes multiple command-line argument file names and outputs the contents of each of them to standard output:</p>
+
+		<code>
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+	char c;
+	fstream fs;
+
+	for (size_t i = 1; i &lt; argc; ++i) {
+		fs.open(argv[i], fstream::in);
+		while (fs.get(c)) cout.put(c);
+		fs.close();
+	}
+	return 0;
+}
+		</code>
+
+		<p>The significance of this example is that one file stream object was used yet multiple files were opened and read in this program.</p>
+
+		<p>Notice how <tt>fstream::close</tt> is called in this example, but it was not called in previous examples. This is because file stream objects automatically call the <tt>close</tt> member function during their destruction.</p>
+
+		<p>There is an <tt>fstream</tt> member function named <tt>is_open</tt>, when called with no arguments, it returns <tt>true</tt> if the stream is associated with an open file; the return value can be <tt>false</tt> if a previous open operation failed to open the file. </p>
+
+		<p>In the above code examples, <tt>is_open</tt> is not necessary to use since the while loops with I/O operations as conditions will fail anyways if the file failed to open.</p>
+	</body>
+</html>
