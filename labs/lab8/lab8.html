@@ -1,0 +1,170 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Lab 8</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+		
+		<ul class="nav">
+			<li><a href="../../index.html">Announcements</a></li>
+			<li><a href="../../syllabus.html">Syllabus</a></li>
+			<li><a href="../../notes.html">Lecture notes</a></li>
+			<li><a href="../../labs.html">Labs</a></li>
+			<li><a href="../../quizzes.html">Quizzes</a></li>
+			<li><a href="../../external.html">External links</a></li>
+		</ul>
+
+		<div class="title">Lab 8</div>
+
+		<p>On Unix-like operating systems, there is a command named <tt>strings</tt>. This program displays all the human readable character sequences that are embedded in a binary file.</p>
+
+		<p>Create a program that works like <tt>strings</tt>, your program should require 1 argument specifying the file to look inside of. Each string that your program finds in the file should only contain printable characters or whitespace and the length of each string should be at least 4 characters. Each human readable string should be displayed on a new line.</p>
+
+		<p>For example, if my finished program is named "strings" and I run the program to have it analyze itself with the command <tt>./strings strings</tt>, then I will get output that looks like:</p>
+
+<code>
+/lib64/ld-linux-x86-64.so.2
+Yr,O
+libstdc++.so.6
+__gmon_start__
+_ITM_deregisterTMCloneTable
+_ITM_registerTMCloneTable
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5clearEv
+_ZNKSt9basic_iosIcSt11char_traitsIcEEcvbEv
+_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKNSt7__cxx1112basic_stringIS4_S5_T1_EE
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1Ev
+_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_
+_ZNSt8ios_base4InitD1Ev
+_ZNSolsEPFRSoS_E
+__gxx_personality_v0
+_ZNSt13basic_fstreamIcSt11char_traitsIcEEC1EPKcSt13_Ios_Openmode
+_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5emptyEv
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEpLEc
+_ZNSt8ios_base4InitC1Ev
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+_ZSt4cout
+_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4sizeEv
+_ZNSi3getERc
+_ZNSt13basic_fstreamIcSt11char_traitsIcEED1Ev
+libgcc_s.so.1
+_Unwind_Resume
+libc.so.6
+__stack_chk_fail
+isspace
+isprint
+__cxa_atexit
+__cxa_finalize
+__libc_start_main
+GCC_3.0
+CXXABI_1.3
+GLIBCXX_3.4.21
+GLIBCXX_3.4
+GLIBC_2.4
+GLIBC_2.2.5
+P&y
+   
+dH3
+   %(
+AWAVA
+AUATL
+[]A\A]A^A_
+;*3$"
+zPLR
+GCC: (Ubuntu 7.2.0-8ubuntu3) 7.2.0
+crtstuff.c
+deregister_tm_clones
+__do_global_dtors_aux
+completed.7632
+__do_global_dtors_aux_fini_array_entry
+frame_dummy
+__frame_dummy_init_array_entry
+strings.cpp
+_ZStL19piecewise_construct
+_ZStL8__ioinit
+_Z41__static_initialization_and_destruction_0ii
+_GLOBAL__sub_I_main
+__FRAME_END__
+__GNU_EH_FRAME_HDR
+_DYNAMIC
+__init_array_end
+__init_array_start
+_GLOBAL_OFFSET_TABLE_
+isspace@@GLIBC_2.2.5
+_ZNSt13basic_fstreamIcSt11char_traitsIcEED1Ev@@GLIBCXX_3.4
+_edata
+_IO_stdin_used
+__cxa_finalize@@GLIBC_2.2.5
+_ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_@@GLIBCXX_3.4
+__dso_handle
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev@@GLIBCXX_3.4.21
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEpLEc@@GLIBCXX_3.4.21
+DW.ref.__gxx_personality_v0
+_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE4sizeEv@@GLIBCXX_3.4.21
+__cxa_atexit@@GLIBC_2.2.5
+_ZStlsIcSt11char_traitsIcESaIcEERSt13basic_ostreamIT_T0_ES7_RKNSt7__cxx1112basic_stringIS4_S5_T1_EE@@GLIBCXX_3.4.21
+_ZNSolsEPFRSoS_E@@GLIBCXX_3.4
+__stack_chk_fail@@GLIBC_2.4
+__TMC_END__
+_ZNKSt9basic_iosIcSt11char_traitsIcEEcvbEv@@GLIBCXX_3.4.21
+_ZSt4cout@@GLIBCXX_3.4
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5clearEv@@GLIBCXX_3.4.21
+_ZNSt13basic_fstreamIcSt11char_traitsIcEEC1EPKcSt13_Ios_Openmode@@GLIBCXX_3.4
+__data_start
+_ZNSi3getERc@@GLIBCXX_3.4
+_ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1Ev@@GLIBCXX_3.4.21
+__bss_start
+_ZNSt8ios_base4InitC1Ev@@GLIBCXX_3.4
+__libc_csu_init
+__gxx_personality_v0@@CXXABI_1.3
+_ZNKSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEE5emptyEv@@GLIBCXX_3.4.21
+_ITM_deregisterTMCloneTable
+_Unwind_Resume@@GCC_3.0
+isprint@@GLIBC_2.2.5
+__libc_csu_fini
+_ZStorSt13_Ios_OpenmodeS_
+__libc_start_main@@GLIBC_2.2.5
+__gmon_start__
+_ITM_registerTMCloneTable
+_ZNSt8ios_base4InitD1Ev@@GLIBCXX_3.4
+.symtab
+.strtab
+.shstrtab
+.interp
+.note.ABI-tag
+.note.gnu.build-id
+.gnu.hash
+.dynsym
+.dynstr
+.gnu.version
+.gnu.version_r
+.rela.dyn
+.rela.plt
+.init
+.plt.got
+.text
+.fini
+.rodata
+.eh_frame_hdr
+.eh_frame
+.gcc_except_table
+.init_array
+.fini_array
+.dynamic
+.data
+.bss
+.comment
+</code>
+
+	<p>The following standard library components should help you implement this program:</p>
+
+	<ul>
+		<li><tt>std::fstream</tt> with an open mode of <tt>std::fstream::in | std::fstream::binary</tt></li>
+		<li><tt>std::isprint</tt> and <tt>std::isspace</tt></li>
+		<li><tt>std::cout</tt></li>
+		<li><tt>std::string</tt></li>
+	</ul>
+	</body>
+</html>
