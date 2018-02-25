@@ -1,0 +1,171 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Derived Classes</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Derived Classes</div>
+
+		<div class="subsection">Review of classes</div>
+
+		<p>Before covering derived classes, it is important that you remember what a class is.</p>
+
+		<p>A class is a user-defined type. When designing a class, what you can put inside of it are called members. There are three kinds of members you can have in a class:</p>
+
+		<ul>
+			<li>Data members: Created as variable declarations inside the class</li>
+			<li>Member functions: Created as function declarations inside the class</li>
+			<li>Nested types: Created from the definitions of classes, type aliases, and enumerations inside the class</li>
+		</ul>
+
+		<code>
+class A {
+public:
+	int b;
+	void c() {}
+	double d(int x) { return x / 2.0; }
+	class E {};
+	typedef bool F;
+};
+		</code>
+
+		<p>In the example above, this arbitrary class A has: 1 data member, b; 2 member functions: c and d; and 2 nested types, E and F.</p>
+
+		<p>When using this class, the operator <tt>::</tt> is used for accessing nested types and the operator <tt>.</tt> is used for accessing data members and member functions:</p>
+
+		<code>
+A o;			// Variable o has type A
+A::F p = true;		// Variable p has type A::F which is an alias for bool
+o.b = 4;		// Accessing the member b from o and assigning 4 to it.
+o.c();			// Accessing the member function c from o and calling it.
+		</code>
+
+		<p>The access modes define the accessibility of certain class members:</p>
+
+		<ul>
+			<li><tt>private</tt>: Only member functions can access the declared-after members.</li>
+			<li><tt>protected</tt>: Member functions and member functions of derived classes can access the declared-after members.</li>
+			<li><tt>public</tt>: Any function can access the declared-after members.</li>
+		</ul>
+
+		<p>A class can contain multiple access mode specifiers, allowing some members to be private, some to be protected, and others to be public.</p>
+
+		<div class="subsection">Derived classes and Base classes</div>
+
+		<p>When designing a class, you can "combine" it with an existing class so that every object of your class-type will also contain all the members of that existing class.</p> 
+
+		<code>
+struct A {
+	int a, b;
+	void c() {}
+};
+
+struct B : A {
+	int d, e;
+};
+		</code>
+
+		<p>In the above example, the B class contains the public members a, b, c, d, and e. The <tt>: A</tt> part after <tt>struct B</tt> is known as the base clause, it is an optional clause for class declarations and it is used to specify the base classes for this class.</p>
+
+		<p>A class that has base classes is itself a derived class of those base classes and every object of this derived class contains one subobject for each base class.</p>
+
+		<p>Since <tt>struct</tt> is used instead of <tt>class</tt>, the members are public by default and the members of the base classes, which are accessible from the derived class, will be publically accessible through objects of this class.</p>
+
+		<p>The act of specifying one or more base classes within a class declaration is known as "inheritance". In our inheritance example, we say that B "inherits" from A. There are different types of inheritance with regard to access mode: public inheritance, private, inheritance, and protected inheritance.</p>
+
+		<p>By default, a class declared using <tt>struct</tt> uses public inheritance on it's specified base classes and a class declared using <tt>class</tt> uses private inheritance on it's specified base classes.</p>
+
+		<div class="section">Examples of inheritance</div>
+
+		<code>
+/* 
+ * Class A has protected data members a, b, and c
+ */
+class A {
+protected:
+	int a, b, c;
+};
+
+/* 
+ * Class B has private data members x, y, and z together with private data
+ * members a, b, and c inherited from class A
+ */
+class B : A {
+	int x, y, z;
+};
+		</code>
+
+		<code>
+/*
+ * Class A has private data member y, public data member y, and protected 
+ * data member z
+ */
+class A {
+	int x;
+public:
+	int y;
+protected:
+	int z;
+};
+
+/*
+ * Class B has public data member i together with public data members 
+ * y and z which were inherited from class A
+ */
+class B : public A {
+public:
+	int i;
+};
+		</code>
+
+		<code>
+/*
+ * Class A has public data member a and private data member b
+ */
+class A {
+public:
+	int a;
+private:
+	int b;
+};
+
+/*
+ * Class B has public data member x, protected data member a which was
+ * inherited from class A, and private data member y.
+ */
+class B : protected A {
+public:
+	int x;
+private:
+	int y;
+};
+
+/*
+ * Class C has public data members i and j together with the private data 
+ * members x and a which were inherited from class B
+ */
+struct C : private B {
+	int i, j;
+};
+		</code>
+
+		<div class="section">Inheritance used within the standard libraries</div>
+
+		<img src="std_io.png">
+
+	</body>
+
+</html>
