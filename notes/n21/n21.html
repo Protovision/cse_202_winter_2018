@@ -88,6 +88,24 @@ struct B : A {
 
 		<p>By default, a class declared using <tt>struct</tt> uses public inheritance on it's specified base classes and a class declared using <tt>class</tt> uses private inheritance on it's specified base classes.</p>
 
+		<div class="section">Types of inheritance</div>
+
+		<p>The syntax of a C++ class declaration is:</p>
+
+		<code>
+class-key name base-clause { member-specification }
+		</code>
+
+		<p>class-key can be "class" or "struct", name is the name of the class, base-clause is an optional clause beginning with ':' and followed by a comma separated list of base specifiers where each base specifier is the name of a class to be used as a base class optionally preceeded with an access specifier of "public", "private", or "protected".</p>
+
+		<p>In the base clause, when a base class is specified with the access specifier <tt>public</tt>, all the inherited members will have public access mode in the current class, this is known as public inheritance. Public inheritance is the default inheritance mode for derived classes declared with a class key of <tt>struct</tt>.</p>
+
+		<p>A base class specifier of <tt>private</tt> means that the inherited members will have private access mode in the current class; this is the default inheritance mode for derived classes declared with a class key of <tt>class</tt>.</p>
+
+		<p>A base class specifier of <tt>protected</tt> means that the inherited members will have protected access mode in the current class.</p>
+
+		<p>Remember that a class can control what members it allows a potential derived class to inherit. Private members cannot be inherited, public or protected members can be inherited.</p>
+
 		<div class="section">Examples of inheritance</div>
 
 		<code>
