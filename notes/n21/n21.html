@@ -98,7 +98,7 @@ class-key name base-clause { member-specification }
 
 		<p>class-key can be "class" or "struct", name is the name of the class, base-clause is an optional clause beginning with ':' and followed by a comma separated list of base specifiers where each base specifier is the name of a class to be used as a base class optionally preceeded with an access specifier of "public", "private", or "protected".</p>
 
-		<p>In the base clause, when a base class is specified with the access specifier <tt>public</tt>, all the inherited members will have public access mode in the current class, this is known as public inheritance. Public inheritance is the default inheritance mode for derived classes declared with a class key of <tt>struct</tt>.</p>
+		<p>In the base clause, when a base class is specified with the access specifier <tt>public</tt>, all public inherited members will have public access mode and all protected inherited members will have protected access mode in the current class, this is known as public inheritance. Public inheritance is the default inheritance mode for derived classes declared with a class key of <tt>struct</tt>.</p>
 
 		<p>A base class specifier of <tt>private</tt> means that the inherited members will have private access mode in the current class; this is the default inheritance mode for derived classes declared with a class key of <tt>class</tt>.</p>
 
@@ -140,8 +140,7 @@ protected:
 };
 
 /*
- * Class B has public data member i together with public data members 
- * y and z which were inherited from class A
+ * Class B has public data members i and y and protected data member z.
  */
 class B : public A {
 public:
