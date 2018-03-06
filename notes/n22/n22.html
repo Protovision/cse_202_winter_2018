@@ -1,0 +1,114 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Enumerations</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Enumerations</div>
+
+		<p>Sometimes it is desirable to use an integral type for representing a finite range of values; for example, one can declare <tt>int color</tt>, but instead of using it for representing an integer, it represents a color with the agreed upon values: 0 being black, 1 being blue, 2 being green, 3 being yellow, and so on.</p>
+
+		<p>In C++, the <i>enumeration</i> enables one to create named constants associated with one integral type so that, for example, you do not need to remember the value associated with each color if you are trying to represent a color.</p>
+
+		<p>In the following example, the <i>enumeration</i> named <tt>color</tt> is declared with 8 <i>enumerators</i> and the enumeration variable c is declared with an initial value set to the value of the <tt>yellow</tt> enumerator.</p>
+
+		<code>
+enum color {
+	black,
+	blue,
+	green,
+	yellow,
+	cyan,
+	white,
+	magenta,
+	red
+};
+
+color c = yellow;
+		</code>
+
+		<p>Strictly speaking, <tt>color</tt> is not a user-defined type (like a class is); all enumerations have an <i>underlying type</i> which will always be an integral type. This integral type will not necessarily be <tt>int</tt>, it might be <tt>short int</tt>, the underlying type used for each enumeration declaration is implementation defined.</p>
+
+		<p>Because all enumerations are based on an integral type, they are implicitly convertable to their integral type; thus you can see the value of an enumerator by inserting an enumeration object into an output stream like <tt>std::cout</tt>. The enumerator <tt>yellow</tt>, in the above example, has an integral value of <tt>3</tt>.</p>
+
+		<p>Each enumerator inside of an enumeration is associated with a distinct integral value. By default, the first enumerator is associated with the value 0 and each proceeding enumerator is associated with the value of the preceeding enumerator plus 1. Therefore, our <tt>color</tt> enumeration has the following values:</p>
+
+		<ul>
+			<li>0 for black</li>
+			<li>1 for blue</li>
+			<li>2 for green</li>
+			<li>3 for yellow</li>
+			<li>4 for cyan</li>
+			<li>5 for white</li>
+			<li>6 for magenta</li>
+			<li>7 for red</li>
+		</ul>
+
+		<p>One can associate different values to the enumerators by using an initializer on one or more enumerator definitions:</p>
+
+		<code>
+enum color {
+	black = 0x000000,
+	blue = 0x0000ff,
+	green = 0x008000,
+	yellow = 0xffff00,
+	cyan = 0x00ffff,
+	white = 0xffffff,
+	magenta = 0xff00ff,
+	red = 0xff0000
+};
+		</code>
+
+		<p>Now, all of the colors have values in accordance with the RGB color model; their values are expressed as hexadecimal integer literals. One does not need to use an initializer on every enumerator, in which case, each proceeding enumerator that does not have an initializer will be associated with the value of the previous enumerator plus one.</p>
+
+		<p>Here's another enumeration example:</p>
+
+		<code>
+struct card {
+	enum rank_type {
+		ace = 1,
+		two,
+		three,
+		four,
+		five,
+		six,
+		seven,
+		eight,
+		nine,
+		ten,
+		jack,
+		queen,
+		king
+	};
+
+	enum suit_type {
+		clubs,
+		diamonds,
+		hearts,
+		spades
+	};
+
+	rank_type rank;
+	suit_type suit;
+};
+
+card c = { card::ace, card::spades };
+		</code>
+
+		<p><tt>rank_type</tt> and <tt>suit_type</tt> are now nested types of <tt>card</tt>. The enumerators are also within the scope of <tt>card</tt>. <tt>card</tt> is an aggregate and can be initialized with an initializer list containing the enumerator values for rank and suit.</p>
+
+	</body>
+</html>
