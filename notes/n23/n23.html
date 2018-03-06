@@ -1,0 +1,133 @@
+<html>
+	
+	<head>
+		<title>CSE 202: bitset</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title"><tt>std::bitset</tt></div>
+
+		<p>Everything mentioned on this page can be referenced at <a href="http://en.cppreference.com/w/cpp/utility/bitset">The cppreference page for <tt>std::bitset</tt></a></p>
+
+		<p>The <tt>std::bitset</tt> class template conceptually stores a set of bits and provides an interface for accessing and manipulating those bits. If you ever need to group a set of true/false values into one object, bitset should be used.</p>
+
+		<p>To use <tt>std::bitset</tt>, &lt;bitset&gt; should be included and <tt>std::bitset</tt> must be instantiated with the number of bits to store; the type <tt>std::bitset&lt;32&gt;</tt> is a bitset that stores 32 bits. This value is fixed and you must know how many bits you will use in the bitset before compilation.</p>
+
+		<p>A bitset can be default constructed or it may be explicitly constructed from an <tt>unsigned long int</tt> value or an <tt>std::string</tt> value.</p>
+
+		<div class="section">bitset operators</div>
+
+		<p>The following program demonstrates the 3 bitwise operators that can be used with bitset:</p>
+
+		<code>
+#include &lt;bitset&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+	bitset&lt;4&gt; b1("0110");
+	bitset&lt;4&gt; b2("0011");
+
+	cout &lt;&lt; "b1: " &lt;&lt; b1 &lt;&lt; endl;
+	cout &lt;&lt; "b2: " &lt;&lt; b2 &lt;&lt; endl;
+	cout &lt;&lt; "b1 &amp; b2: " &lt;&lt; (b1 &amp; b2) &lt;&lt; endl;
+	cout &lt;&lt; "b1 | b2: " &lt;&lt; (b1 | b2) &lt;&lt; endl;
+	cout &lt;&lt; "b1 ^ b2: " &lt;&lt; (b1 ^ b2) &lt;&lt; endl;
+	return 0;
+}
+		</code>
+
+		<p>Bitsets, b1 and b2, with size 4 are direct-initialized with strings "0110" and "0011", respectively. A bitset can be inserted to an <tt>std::ostream</tt> and it's contents will be written in text form as a string of '0's and '1's.</p>
+
+		<p>The 3 bitwise operators that can be used between 2 bitsets are: logical AND (<tt>&amp;</tt>), logical OR (<tt>|</tt>), and logical XOR (<tt>^</tt>). Each bitwise operator for <tt>std::bitset</tt> compares the individual bits between the 2 bitsets, column by column; each comparison results in a new bit value that will be part of the new bitset result of the expression.</p>
+
+		<p>For each comparison using the bitwise AND operator: if both bits equal 1, then the resulting bit equals 1, otherwise the resulting bit equals 0; Therefore, 0110 &amp; 0011 results in 0010.</p>
+
+		<p>For each comparison using the bitwise OR operator: if at least one bit equals 1, then the resulting bit equals 1, otherwise the resulting bit equals 0; Therefore, 0110 | 0011 results in 0111.</p>
+
+		<p>For each comparison using the bitwise XOR operator: if both bits differ in value, then the resulting bit equals 1, otherwise the resulting bit equals 0; Therefore, 0110 ^ 0011 results in 0101.</p>
+
+		<p>The bitwise assignment operators: bitwise AND assignment (<tt>&amp;=</tt>), bitwise OR assignment (<tt>|=</tt>), and bitwise XOR assignment (<tt>^=</tt>) perform the same operation as it's non-assignment equivalent while storing the result in the same variable used as the first operand.</p>
+		<p>There is another bitset operator, an unary operator called bitwise NOT (<tt>~</tt>) which inverts the value of each bit in the bitset.</p>
+
+		<div class="section">Bitset element access</div>
+
+		<p>The subscript operator (<tt>[]</tt>) can be used to access a specific bitset bit through it's index. For a bitset with N elements, index 0 corresponds to the "least significant bit" and index N-1 corresponds to the "most significant bit".</p>
+
+		<p>For a bitset, b, represented with the string "01011": the most significant bit is '0', the first character in the string; the least significant bit is '1', the last character in the string. So b[0] = 1, b[1] = 1, b[2] = 0, b[3] = 1, and b[4] = 0.</p>
+
+		<p>One can count the number of bits set to 1 by calling the <tt>count</tt> member function. For our bitset b, <tt>b.count()</tt> results in 3.</p>
+
+		<div class="section">Bitset conversions</div>
+
+		<p>As demonstrated, bitsets can be initialized with a binary-representing string. It can also be initialized from an existing integer of type <tt>unsigned long int</tt>. The following program counts in binary from 0 to 31:</p>
+
+		<code>
+#include &lt;bitset&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+	for (int i = 0; i &lt; 32; ++i)
+		cout &lt;&lt; bitset&lt;4&gt;(i) &lt;&lt; endl;
+	return 0;
+}
+		</code>
+
+		<p>The output of this program is:</p>
+
+		<code>
+0000
+0001
+0010
+0011
+0100
+0101
+0110
+0111
+1000
+1001
+1010
+1011
+1100
+1101
+1110
+1111
+0000
+0001
+0010
+0011
+0100
+0101
+0110
+0111
+1000
+1001
+1010
+1011
+1100
+1101
+1110
+1111
+		</code>
+
+		<p>Instead of inserting a bitset directly into an output stream, one can convert it into a string or integer.</p>
+
+		<p>For a bitset named b: the expression <tt>b.to_ulong()</tt> returns an <tt>unsigned long int</tt> containing the bits of the bitset and the expression <tt>b.to_string()</tt> returns an <tt>std::string</tt> containing the bits of the bitset represented by the characters '0' for 0 and '1' for 1.</p>
+
+	</body>
+</html>
