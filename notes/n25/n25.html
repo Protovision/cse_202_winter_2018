@@ -1,0 +1,171 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Templates</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Templates</div>
+
+		<p>A template defines a family of classes or functions. Template code is incomplete C++ code that describes a general function or class that is intelligible regardless of the particular types or constant values that the function or class may use.</p>
+
+		<p>Here is a class template for a triplet:</p>
+
+		<code>
+template &lt;class T1, class T2, class T3&gt;
+struct triplet {
+	T1 first;
+	T2 second;
+	T3 third;
+};
+
+triplet&lt;int, bool, double&gt; t(5, true, 6.8);
+		</code>
+
+		<p>It is similar to <tt>std::pair</tt> which is an existing standard class template for storing a pair of objects. This one stores 3 objects of any 3 types. <tt>T1</tt>, <tt>T2</tt>, and <tt>T3</tt> are the template parameters for <tt>triplet</tt>. In the definition of a class template, any name that refers to any of these template parameters will be substituted for the template argument that was supplied during class template instantiation.</p>
+
+		<p><tt>triplet&lt;int, bool, double&gt;</tt> completely defines a new type by causing class template instantiation for <tt>triplet</tt> with <tt>int</tt>, <tt>bool</tt> and <tt>double</tt> supplied as template arguments. This results in the following code generated:</p>
+
+		<code>
+int first;
+bool second;
+double third;
+		</code>
+
+		<div class="section">Implementing a dynamic array</div>
+
+		<p><tt>std::vector</tt> is probably the most used class template in C++, defining your own container requires knowledge of templates and dynamic memory management.</p>
+
+		<p>A vector or dynamic array uses allocation and deallocation functions to grow and shrink the number of elements. It is generally understood that a vector stores a dynamically allocated array internally and as more elements are inserted into the vector, the vector will, from time to time, have to allocate a new internal array of a bigger capacity and move all the existing elements into the new storage and then deallocate the old storage.</p>
+
+		<p>Vectors keep track of at least 3 things: the address of the internal array, the size , and the capacity. The size of a vector is the number of elements that are in use within the vector. The capacity of the vector is the total number of elements allocated in that vector's internal array, some of which may not be in use. At any time, the size of a vector should always be less than or equal to the capacity of that vector.</p>
+
+		<p>The following is a proper implementation of a very basic version of <tt>std::vector</tt>.</p>
+
+		<code>
+#include &lt;memory&gt;
+#include &lt;algorithm&gt;
+
+/*
+ * simple_vector
+ * Author: Mark Swoope
+ * A simple C++ implementation of a dynamic array for educational purposes
+ */
+template &lt;class T&gt;
+class simple_vector {
+public:
+	/* Constructor */
+	simple_vector() : base(0), uptr(0), ebase(0) {}
+
+	/* Destructor */
+	~simple_vector()
+	{
+		if (base != 0) {
+			clear();
+			::operator delete[](base);
+		}
+	}
+
+	/* Access an element from it's index */
+	T&amp; operator[](std::size_t index)
+	{
+		return base[index];
+	}
+
+	/* Access an element from it's index (constant overload) */
+	const T&amp; operator[](std::size_t index) const
+	{
+		return base[index];
+	}
+
+	/* Returns the number of elements */
+	std::size_t size() const
+	{
+		return uptr - base;
+	}
+
+	/* 
+	 * Returns the number of elements this vector can store before the 
+	 * next reallocation
+	 */
+	std::size_t capacity() const
+	{
+		return ebase - base;
+	}
+
+	/* Exchanges the contents of this vector with another */
+	void swap(simple_vector&amp; other)
+	{
+		using std::swap;
+		swap(base, other.base);
+		swap(uptr, other.uptr);
+		swap(ebase, other.ebase);
+	}
+
+	/* Erases all elements */
+	void clear()
+	{
+		for (T* p = base; p != uptr; ++p) p-&gt;T::~T();
+		uptr = base;
+	}
+
+	/* Inserts an element to the end */
+	void push_back(const T&amp; value)
+	{
+		if (uptr == ebase) {
+			reallocate_and_assign(
+					capacity() != 0 ? capacity() * 2 : 2,
+					base, uptr);
+		}
+		::new((void*)(uptr++)) T(value);
+	}
+
+	/* Erases the last element */
+	void pop_back()
+	{
+		(--uptr)-&gt;T::~T();
+	}
+
+private:
+	/* Pointer to the dynamic storage array */
+	T* base;
+	/* Pointer to the unused elements */
+	T* uptr;
+	/* Pointer to the end of the dynamic storage array */
+	T* ebase;
+
+	/*
+	 * Reallocates this vector to a new capacity and assigns the values 
+	 * from the range [first, last)
+	 */
+	template &lt;class InputIt&gt;
+	void reallocate_and_assign(std::size_t new_capacity, InputIt first,
+								InputIt last)
+	{
+		simple_vector temp;
+
+		temp.base = (T*)::operator new(new_capacity * sizeof(T));
+		temp.uptr = std::uninitialized_copy(first, last, temp.base);
+		temp.ebase = temp.base + new_capacity;
+		swap(temp);
+	}
+};
+		</code>
+
+		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt> and <tt>pop_back</tt>) so that you can learn the basic idea of how a dynamic array works. Some missing features which I have purposely left out include: a copy constructor, a copy-assignment operator, assign, insert, erase, resize, and reserve.</p>
+
+		
+	</body>
+</html>
