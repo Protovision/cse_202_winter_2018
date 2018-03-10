@@ -1,0 +1,245 @@
+<html>
+	
+	<head>
+		<title>CSE 202: Dynamic Memory Management</title>
+		<link rel="stylesheet" type="text/css" href="../../main.css">
+	</head>
+
+	<body>
+		<div class="course">CSE 202: Computer Science II, Winter 2018</div>
+    
+                <ul class="nav">
+                        <li><a href="../../index.html">Announcements</a></li>
+                        <li><a href="../../syllabus.html">Syllabus</a></li>
+                        <li><a href="../../notes.html">Lecture notes</a></li>
+                        <li><a href="../../labs.html">Labs</a></li>
+                        <li><a href="../../quizzes.html">Quizzes</a></li>
+                        <li><a href="../../external.html">External links</a></li>
+                </ul>
+
+		<div class="title">Dynamic memory management</div>
+
+		<p>You have been briefly introduced to <i>new-expressions</i> and <i>delete-expressions</i> in <a href="../n13/n13.html">"Storage Durations"</a>, these expressions deal with objects located in dynamic storage. You should know that a new-expression creates an object that has dynamic storage duration and a delete-expression destroys an object that was created with a new-experssion. The primary reason to use <tt>new</tt> and <tt>delete</tt> is for implementing a container or data structure such as: <tt>std::vector</tt>, <tt>std::map</tt>, and <tt>std::list</tt>.</p>
+
+		<div class="section">Allocation and deallocation</div>
+
+		<p>Let's dive deeper into what a new-expression is actually doing. A new-expression creates an object first by allocating storage for the object and then by initializing that storage. The storage that an object occupies is composed of a contiguous sequence of bytes; the unique address of the first byte of an object's storage is the memory location of that object.</p>
+
+		<p>All types of storage in C++ are composed of a contiguous sequence of bytes with each byte having a unique address (even across different types of storage). The particular type of storage that a new-expression allocates is dynamic storage, but the new-expression does not do this directly. The new-expression delegates the task of allocating dynamic storage to the <i>global allocation functions</i>: <tt>::operator new</tt> and <tt>::operator new[]</tt>.</p>
+
+		<p>The global allocation functions only allocate dynamic storage; unlike the new-expressions, they do not initialize the dynamic storage that they allocate. To prove this, you may run the following program:</p>
+
+		<code>
+#include &lt;iostream&gt;
+using namespace std;
+
+struct C {
+	
+	C()
+	{
+		cout &lt;&lt; '[' &lt;&lt; this &lt;&lt; "] C::C()" &lt;&lt; endl;
+	}
+
+	~C()
+	{
+		cout &lt;&lt; '[' &lt;&lt; this &lt;&lt; "] C::~C()" &lt;&lt; endl;
+	}
+
+};
+
+int main()
+{
+	C* x1 = ::new C;
+	cout &lt;&lt; "x1 = " &lt;&lt; x1 &lt;&lt; endl;
+	::delete x1;
+
+	C* x2 = (C*)::operator new(sizeof(C));
+	cout &lt;&lt; "x2 = " &lt;&lt; x2 &lt;&lt; endl;
+	::operator delete(x2);
+
+	return 0;
+}
+		</code>
+
+		<p>The output will be something like:</p>
+
+		<code>
+[0x562aff849e70] C::C()
+x1 = 0x562aff849e70
+[0x562aff849e70] C::~C()
+x2 = 0x562aff849e70
+		</code>
+
+		<p>You can see here that the constructor for C was only called during the new-expression; <tt>::operator new</tt> did not call the constructor for C. The delete-expression called the destructor for C, but the <i>global deallocation function</i> <tt>::operator delete</tt> did not.</p>
+
+		<p>Also note that <tt>::</tt> was used in front of the new and delete-expressions, it is possible to override the allocation and deallocation functions that new and delete-expressions use for a particular type; by explicitly using <tt>::new</tt> and <tt>::delete</tt>, the new and delete-expressions will use the global allocation functions provided by C++.</p>
+
+		<p>If you ever need to allocate storage without initializating it, consider using the global allocation and deallocation functions instead of the new and delete-expressions.</p>
+
+		<p>To allocate an uninitialized array, the <tt>::operator new[]</tt> function should be used:</p>
+
+		<code>
+int* p = (int*)::operator new[](100 * sizeof(int));
+		</code>
+
+		<p>The code above allocates an uninitialized array of 100 <tt>int</tt> and stores a pointer to this array in <tt>p</tt>. To deallocate an array that was allocated with <tt>::operator new[]</tt>, you must call <tt>::operator delete[]</tt> like: <tt>::operator delete[](p)</tt>.</p>
+
+		<div class="section">Construction and destruction</div>
+
+		<p>It is possible to manually initialize an object, whether or not it has already been initialized:</p>
+
+		<code>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main()
+{
+	int x = 42;
+	cout &lt;&lt; "x:  " &lt;&lt; x &lt;&lt; endl;
+	::new(&amp;x) int;
+	cout &lt;&lt; "x after default-initialization: " &lt;&lt; x &lt;&lt; endl;
+	::new(&amp;x) int();
+	cout &lt;&lt; "x after value-initialization: " &lt;&lt; x &lt;&lt; endl;
+	return 0;
+}
+		</code>
+		
+		<p>The output of the above program is:</p>
+
+		<code>
+x: 42
+x after default-initialization: 42
+x after value-initialization: 0
+		</code>
+
+		<p>The new-expression used in the form of <tt>::new(&amp;x) int;</tt> default-initializes an already allocated object located at <tt>&amp;x</tt>. <tt>::new(&amp;x) int();</tt> value-initializes an already allocated object located at <tt>&amp;x</tt>.</p>
+
+		<p>The output of this program shows that default-initialization does nothing for non-class types while value-initialization zero-initializes a non-class-type object by setting all the bytes in that object's storage to zero.</p>
+
+		<p>The following program demonstrates the manual allocation, construction, destruction, and deallocation of a class-type object:</p>
+
+		<code>
+#include &lt;iostream&gt;
+using namespace std;
+
+struct T {
+	int x;
+	T(int x)
+	{
+		cout &lt;&lt; "T::T()" &lt;&lt; endl;
+		this-&gt;x = x;
+	}
+	~T()
+	{
+		cout &lt;&lt; "T::~T()" &lt;&lt; endl;
+	}
+};	
+int main()
+{
+	T* p = (T*)::operator new(sizeof(T));
+	::new(p) T(42);
+	cout &lt;&lt; "p-&gt;x: " &lt;&lt; p-&gt;x &lt;&lt; endl;
+	p-&gt;T::~T();
+	::operator delete(p);
+	return 0;
+}
+		</code>
+
+		<p>The code in the main function does the same as if the code was:</p>
+		
+		<code>
+T* p = ::new T(42);
+cout &lt;&lt; "p-&gt;x: " &lt;&lt; p-&gt;x &lt;&lt; endl;
+::delete p;
+		</code>
+
+		<p>The statement <tt>::new(p) T(42)</tt> direct-initializes an object pointed to by p with the value 42. Since the object is a class-type, it's constructor will be called with 42 as the argument.</p>
+
+		<p>The statement <tt>p-&gt;T::~T()</tt> calls the destructor of an object of type <tt>T</tt> through it's pointer <tt>p</tt>; a statement like this can only be used on class-type objects unless you are writing code for a template.</p>
+
+		<div class="section">Summary</div>
+
+		<table>
+			<tr>
+				<th>#</th>
+				<th>Expression</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td><tt>(T*)::operator new(sizeof(T))</tt></td>
+				<td>Allocates, from dynamic storage, an uninitialized object of type T and returns a pointer to it</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td><tt>(T*)::operator new[](N * sizeof(T))</tt></td>
+				<td>Allocates, from dynamic storage, an array of N uninitialized objects of type T and returns a pointer to the first element.</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td><tt>::new(p) T</tt></td>
+				<td>Default-initializes an object of type T pointed to by p. For class-types, the constructor gets called; for non-class-types, nothing happens</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td><tt>::new(p) T()</tt></td>
+				<td>Value-initializes an object of type T pointed to by p. For class-types, the constructor gets called; for non-class-types, the object gets zero-initialized.</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td><tt>::new(p) T(x)</tt></td>
+				<td>Direct-initializes an object of type T pointed to by p. For class-types, the appropriate constructor gets called; for non-class-types, the value gets assigned after any necessary conversion.</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td><tt>::new T</tt></td>
+				<td>Performs expressions 1 and 3</td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td><tt>::new T()</tt></td>
+				<td>Performs expressions 1 and 4</td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td><tt>::new T(x)</tt></td>
+				<td>Performs expressions 1 and 5</td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td><tt>::new T[N]</tt></td>
+				<td>Performs expression 2, then performs expression 3 on each element</td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td><tt>::new T[N]()</tt></td>
+				<td>Performs expression 2, then performs expression 4 on each element</td>
+			</tr>
+			<tr>
+				<td>11</td>
+				<td><tt>p-&gt;T::~T()</tt></td>
+				<td>Calls the destructor of an object, of type T, pointed to by p.</td>
+			</tr>
+			<tr>
+				<td>12</td>
+				<td><tt>::operator delete(p)</tt></td>
+				<td>Deallocates the object pointed to by p which was previously allocated using expression 1.</td>
+			</tr>
+			<tr>
+				<td>13</td>
+				<td><tt>::operator delete[](p)</tt></td>
+				<td>Deallocates the array pointed to by p which was previously allocated using expression 2.</td>
+			</tr>
+			<tr>
+				<td>14</td>
+				<td><tt>::delete p</tt></td>
+				<td>If the object pointed to by p has a destructor, performs expression 11; then performs expression 12</td>
+			</tr>
+			<tr>
+				<td>15</td>
+				<td><tt>::delete[] p</tt></td>
+				<td>If the elements in the array pointed to by p have destructors, performs expression 11 on each element; then performs expression 13.</td>
+			</tr>
+		</table>
+	</body>
+</html>
