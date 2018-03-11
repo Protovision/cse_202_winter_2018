@@ -69,6 +69,8 @@ double third;
 		<p>The following is a proper implementation of a very basic version of <tt>std::vector</tt>.</p>
 
 		<code>
+#ifndef SIMPLE_VECTOR_H
+#define SIMPLE_VECTOR_H
 #include &lt;memory&gt;
 #include &lt;algorithm&gt;
 
@@ -81,7 +83,15 @@ template &lt;class T&gt;
 class simple_vector {
 public:
 	/* Constructor */
-	simple_vector() : base(0), uptr(0), ebase(0) {}
+	simple_vector() : base(0), uptr(0), ebase(0)
+	{
+	}
+
+	/* Copy-constructor */
+	simple_vector(const simple_vector&amp; other) : base(0), uptr(0), ebase(0)
+	{
+		reallocate_and_assign(other.size(), other.base, other.uptr);
+	}
 
 	/* Destructor */
 	~simple_vector()
@@ -90,6 +100,31 @@ public:
 			clear();
 			::operator delete[](base);
 		}
+	}
+
+	/* Copy-assignment operator */	
+	simple_vector&amp; operator=(const simple_vector&amp; other)
+	{
+		T* middle;
+		std::size_t this_size, other_size;
+
+		this_size = size();
+		other_size = other.size();
+		if (other_size &gt; capacity()) {
+			reallocate_and_assign(other_size, other.base,
+							other.uptr);
+		} else if (other_size &gt; this_size) {
+			middle = other.base + this_size;
+			std::copy(other.base, middle, base);
+			uptr = std::uninitialized_copy(middle, other.uptr,
+								uptr);
+		} else {
+			middle = base + other_size;
+			std::copy(other.base, other.uptr, base);
+			for (T* p = middle; p != uptr; ++p) p-&gt;T::~T();
+			uptr = middle;
+		} 
+		return *this;
 	}
 
 	/* Access an element from it's index */
@@ -132,7 +167,7 @@ public:
 	/* Returns true if this vector has no elements */
 	bool empty() const
 	{
-		return base != uptr;
+		return base == uptr;
 	}
 
 	/* Returns the number of elements */
@@ -207,7 +242,7 @@ private:
 	 */
 	template &lt;class InputIt&gt;
 	void reallocate_and_assign(std::size_t new_capacity, InputIt first,
-								InputIt last)
+							InputIt last)
 	{
 		simple_vector temp;
 
@@ -217,9 +252,17 @@ private:
 		swap(temp);
 	}
 };
+
+template &lt;class T&gt;
+void swap(simple_vector&lt;T&gt;&amp; a, simple_vector&lt;T&gt;&amp; b)
+{
+	a.swap(b);
+}
+
+#endif
 		</code>
 
-		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt> and <tt>pop_back</tt>) so that you can learn the basic idea of how a dynamic array works. Some more complex missing features which I have purposely left out include: a copy constructor, a copy-assignment operator, assign, insert, erase, and resize.</p>
+		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt>, <tt>pop_back</tt>, copy-assign) so that you can learn the basic idea of how a dynamic array works. Some more complex missing features which I have purposely left out include: assign, insert, erase, and resize.</p>
 
 		
 	</body>
