@@ -207,12 +207,7 @@ private:
 		simple_vector temp;
 
 		temp.base = (T*)::operator new[](new_capacity * sizeof(T));
-		try {
-			temp.uptr = std::uninitialized_copy(first, last, temp.base);
-		} catch (...) {
-			::operator delete[](temp.base);
-			throw;
-		}
+		temp.uptr = std::uninitialized_copy(first, last, temp.base);
 		temp.ebase = temp.base + new_capacity;
 		swap(temp);
 	}
