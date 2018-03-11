@@ -90,10 +90,9 @@ public:
 	}
 
 	/* Copy-assignment operator (not optimized) */
-	simple_vector&amp; operator=(const simple_vector&amp; other)
+	simple_vector&amp; operator=(simple_vector other)
 	{
-		simple_vector temp(other);
-		swap(temp);
+		swap(other);
 		return *this;
 	}
 
@@ -187,7 +186,6 @@ public:
 		swap(uptr, other.uptr);
 		swap(ebase, other.ebase);
 	}
-
 private:
 	/* Pointer to the dynamic storage array */
 	T* base;
