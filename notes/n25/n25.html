@@ -52,6 +52,20 @@ double third;
 
 		<p>Vectors keep track of at least 3 things: the address of the internal array, the size , and the capacity. The size of a vector is the number of elements that are in use within the vector. The capacity of the vector is the total number of elements allocated in that vector's internal array, some of which may not be in use. At any time, the size of a vector should always be less than or equal to the capacity of that vector.</p>
 
+		<p>Here is a diagram of the dynamic storage array that is managed internally by a vector:</p>
+
+		<p><img src="vector.png"></p>
+
+		<p>The white squares represent the initialized elements and the gray squares represent the uninitialized elements. Only the initialized elements make up the size of the vector while capacity of the vector is made up of both the initialized and uninitialized elements.</p>
+
+		<p>A call to <tt>push_back</tt> direct-initializes the end-element with some user-supplied value, causing the positions of the back-element and end-element to be updated. The end-element is the element at the end of the vector which always refers to the uninitialized element that is one past the back-element.</p> 
+
+		<p>If the end-element is beyond the vector's current capacity during a call to <tt>push_back</tt>, then the vector attempts to reallocate itself to a dynamic storage equipped with bigger capacity.</p>
+
+		<p>A call to <tt>pop_back</tt> destroys the back-element, causing the back-element to become the new end-element and the previous element to become the new back-element; most implementations keep the capacity unchanged.</p>
+
+		<p>The way <tt>insert</tt> and <tt>erase</tt> work are more complicated, the details of which will not be covered here. <tt>insert</tt> and <tt>erase</tt> require the initialized elements to be "shifted" to make room for the elements to be inserted or to occupy the elements to be erased. The shifting of elements during an <tt>insert</tt> or <tt>erase</tt> is not as simple as repeatedly using the assignment operator; correctly implementing these operations requires careful use of <tt>std::copy</tt>, <tt>std::copy_backward</tt>, and <tt>std::uninitialized_copy</tt>.</p>
+
 		<p>The following is a proper implementation of a very basic version of <tt>std::vector</tt>.</p>
 
 		<code>
