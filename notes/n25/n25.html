@@ -84,10 +84,41 @@ public:
 		return base[index];
 	}
 
-	/* Access an element from it's index (constant overload) */
 	const T&amp; operator[](std::size_t index) const
 	{
 		return base[index];
+	}
+
+	/* Returns a reference to the first element */
+	T&amp; front()
+	{
+		return *base;
+	}
+
+	const T&amp; front() const
+	{
+		return *base;
+	}
+
+	/* Returns a reference to the last element */
+	T&amp; back()
+	{
+		T* temp = uptr;
+		--temp;
+		return *temp;
+	}
+
+	const T&amp; back() const
+	{
+		T* temp = uptr;
+		--temp;
+		return *temp;
+	}
+
+	/* Returns true if this vector has no elements */
+	bool empty() const
+	{
+		return base != uptr;
 	}
 
 	/* Returns the number of elements */
@@ -103,6 +134,16 @@ public:
 	std::size_t capacity() const
 	{
 		return ebase - base;
+	}
+
+	/*
+	 * Ensure a capacity of at least min_capacity by reallocating if
+	 * necessary
+	 */
+	void reserve(std::size_t min_capacity)
+	{
+		if (min_capacity &gt; capacity())
+			reallocate_and_assign(min_capacity, base, uptr);
 	}
 
 	/* Exchanges the contents of this vector with another */
@@ -156,7 +197,7 @@ private:
 	{
 		simple_vector temp;
 
-		temp.base = (T*)::operator new(new_capacity * sizeof(T));
+		temp.base = (T*)::operator new[](new_capacity * sizeof(T));
 		temp.uptr = std::uninitialized_copy(first, last, temp.base);
 		temp.ebase = temp.base + new_capacity;
 		swap(temp);
@@ -164,7 +205,7 @@ private:
 };
 		</code>
 
-		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt> and <tt>pop_back</tt>) so that you can learn the basic idea of how a dynamic array works. Some missing features which I have purposely left out include: a copy constructor, a copy-assignment operator, assign, insert, erase, resize, and reserve.</p>
+		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt> and <tt>pop_back</tt>) so that you can learn the basic idea of how a dynamic array works. Some more complex missing features which I have purposely left out include: a copy constructor, a copy-assignment operator, assign, insert, erase, and resize.</p>
 
 		
 	</body>
