@@ -64,6 +64,8 @@ double third;
 
 		<p>A call to <tt>pop_back</tt> destroys the back-element, causing the back-element to become the new end-element and the previous element to become the new back-element; most implementations keep the capacity unchanged.</p>
 
+		<p>Copy-assignment with vectors only causes reallocation if the source vector's size exceeds the capacity of the destination vector, the elements from the source vector get copied into the elements of the destination vector with initialized destination elements being copy-assigned and any necessary uninitialized destination elements being copy-constructed. Some elements in the destination vector may require destruction if the source vector's size was smaller.</p>
+
 		<p>The way <tt>insert</tt> and <tt>erase</tt> work are more complicated, the details of which will not be covered here. <tt>insert</tt> and <tt>erase</tt> require the initialized elements to be "shifted" to make room for the elements to be inserted or to occupy the elements to be erased. The shifting of elements during an <tt>insert</tt> or <tt>erase</tt> is not as simple as repeatedly using the assignment operator; correctly implementing these operations requires careful use of <tt>std::copy</tt>, <tt>std::copy_backward</tt>, and <tt>std::uninitialized_copy</tt>.</p>
 
 		<p>The following is a proper implementation of a very basic version of <tt>std::vector</tt>.</p>
