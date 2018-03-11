@@ -58,17 +58,7 @@ double third;
 
 		<p>The white squares represent the initialized elements and the gray squares represent the uninitialized elements. Only the initialized elements make up the size of the vector while capacity of the vector is made up of both the initialized and uninitialized elements.</p>
 
-		<p>A call to <tt>push_back</tt> direct-initializes the end-element with some user-supplied value, causing the positions of the back-element and end-element to be updated. The end-element is the element at the end of the vector which always refers to the uninitialized element that is one past the back-element.</p> 
-
-		<p>If the end-element is beyond the vector's current capacity during a call to <tt>push_back</tt>, then the vector attempts to reallocate itself to a dynamic storage equipped with bigger capacity.</p>
-
-		<p>A call to <tt>pop_back</tt> destroys the back-element, causing the back-element to become the new end-element and the previous element to become the new back-element; most implementations keep the capacity unchanged.</p>
-
-		<p>Copy-assignment with vectors only causes reallocation if the source vector's size exceeds the capacity of the destination vector, the elements from the source vector get copied into the elements of the destination vector with initialized destination elements being copy-assigned and any necessary uninitialized destination elements being copy-constructed. Some elements in the destination vector may require destruction if the source vector's size was smaller.</p>
-
-		<p>The way <tt>insert</tt> and <tt>erase</tt> work are more complicated, the details of which will not be covered here. <tt>insert</tt> and <tt>erase</tt> require the initialized elements to be "shifted" to make room for the elements to be inserted or to occupy the elements to be erased. The shifting of elements during an <tt>insert</tt> or <tt>erase</tt> is not as simple as repeatedly using the assignment operator; correctly implementing these operations requires careful use of <tt>std::copy</tt>, <tt>std::copy_backward</tt>, and <tt>std::uninitialized_copy</tt>.</p>
-
-		<p>The following is a proper implementation of a very basic version of <tt>std::vector</tt>.</p>
+		<p>The following is an implementation of a simplified version of <tt>std::vector</tt>.</p>
 
 		<code>
 #ifndef SIMPLE_VECTOR_H
@@ -104,28 +94,11 @@ public:
 		}
 	}
 
-	/* Copy-assignment operator */	
+	/* Copy-assignment operator (not optimized) */
 	simple_vector&amp; operator=(const simple_vector&amp; other)
 	{
-		T* middle;
-		std::size_t this_size, other_size;
-
-		this_size = size();
-		other_size = other.size();
-		if (other_size &gt; capacity()) {
-			reallocate_and_assign(other_size, other.base,
-							other.uptr);
-		} else if (other_size &gt; this_size) {
-			middle = other.base + this_size;
-			std::copy(other.base, middle, base);
-			uptr = std::uninitialized_copy(middle, other.uptr,
-								uptr);
-		} else {
-			middle = base + other_size;
-			std::copy(other.base, other.uptr, base);
-			for (T* p = middle; p != uptr; ++p) p-&gt;T::~T();
-			uptr = middle;
-		} 
+		simple_vector temp(other);
+		swap(temp);
 		return *this;
 	}
 
@@ -187,30 +160,10 @@ public:
 		return ebase - base;
 	}
 
-	/*
-	 * Ensure a capacity of at least min_capacity by reallocating if
-	 * necessary
-	 */
-	void reserve(std::size_t min_capacity)
-	{
-		if (min_capacity &gt; capacity())
-			reallocate_and_assign(min_capacity, base, uptr);
-	}
-
-	/* Exchanges the contents of this vector with another */
-	void swap(simple_vector&amp; other)
-	{
-		using std::swap;
-		swap(base, other.base);
-		swap(uptr, other.uptr);
-		swap(ebase, other.ebase);
-	}
-
 	/* Erases all elements */
 	void clear()
 	{
-		for (T* p = base; p != uptr; ++p) p-&gt;T::~T();
-		uptr = base;
+		while (uptr != base) (--uptr)-&gt;T::~T();
 	}
 
 	/* Inserts an element to the end */
@@ -221,13 +174,23 @@ public:
 					capacity() != 0 ? capacity() * 2 : 2,
 					base, uptr);
 		}
-		::new((void*)(uptr++)) T(value);
+		::new((void*)(uptr)) T(value);
+		++uptr;
 	}
 
 	/* Erases the last element */
 	void pop_back()
 	{
 		(--uptr)-&gt;T::~T();
+	}
+
+	/* Exchanges the contents of this vector with another */
+	void swap(simple_vector&amp; other)
+	{
+		using std::swap;
+		swap(base, other.base);
+		swap(uptr, other.uptr);
+		swap(ebase, other.ebase);
 	}
 
 private:
@@ -249,7 +212,12 @@ private:
 		simple_vector temp;
 
 		temp.base = (T*)::operator new[](new_capacity * sizeof(T));
-		temp.uptr = std::uninitialized_copy(first, last, temp.base);
+		try {
+			temp.uptr = std::uninitialized_copy(first, last, temp.base);
+		} catch (...) {
+			::operator delete[](temp.base);
+			throw;
+		}
 		temp.ebase = temp.base + new_capacity;
 		swap(temp);
 	}
@@ -264,7 +232,7 @@ void swap(simple_vector&lt;T&gt;&amp; a, simple_vector&lt;T&gt;&amp; b)
 #endif
 		</code>
 
-		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt>, <tt>pop_back</tt>, copy-assign) so that you can learn the basic idea of how a dynamic array works. Some more complex missing features which I have purposely left out include: assign, insert, erase, and resize.</p>
+		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt>, <tt>pop_back</tt>, copy-assign) so that you can learn the basic idea of how a dynamic array works.</p>
 
 		
 	</body>
