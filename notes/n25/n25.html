@@ -168,7 +168,7 @@ public:
 					capacity() != 0 ? capacity() * 2 : 2,
 					base, uptr);
 		}
-		::new((void*)(uptr)) T(value);
+		::new((void*)uptr) T(value);
 		++uptr;
 	}
 
@@ -222,6 +222,54 @@ void swap(simple_vector&lt;T&gt;&amp; a, simple_vector&lt;T&gt;&amp; b)
 
 		<p>This does not support all the features that <tt>std::vector</tt> supports, but it demonstrates the most important ones (<tt>push_back</tt>, <tt>pop_back</tt>, copy-assign) so that you can learn the basic idea of how a dynamic array works.</p>
 
-		
+		<p>Contrast this implementation with one where new-expressions are used for allocation and the assignment operator is used to create and move elements; certain member functions of simple_vector could have been defined as:</p>
+
+		<code>
+~simple_vector()
+{
+	if (base != 0) ::delete[] base;
+}
+
+/* ... */
+
+void clear()
+{
+	uptr = base;
+}
+
+void push_back(const T&amp; value)
+{
+	if (uptr == ebase) {
+		reallocate_and_assign(
+				capacity() != 0 ? capacity() * 2 : 2,
+				base, uptr);
+	}
+	*uptr = value;
+	++uptr;
+}
+
+void pop_back()
+{
+	--uptr;
+}
+
+/* ... */
+
+template &lt;class InputIt&gt;
+void reallocate_and_assign(std::size_t new_cap, InputIt first,
+						InputIt last)
+{
+	simple_vector temp;
+
+	temp.base = ::new T[new_cap];
+	temp.uptr = std::copy(first, last, temp.base);
+	temp.ebase = temp.base + new_cap;
+	swap(temp);
+}
+		</code>
+
+		<p>This is the more conventional way to introduce how a vector might work, and it is still functional but it drifts significantly far from being efficient since new-expressions initialize unused elements too early and operations like <tt>pop_back</tt> do not actually destroy elements.</p>
+
+		<p>This less efficient change to simple_vector only affects elements that have constructors and destructors; for integral or floating-point element types, there is no difference in execution since: default-initialization of these types is a no-operation, direct-initialization of these types is the same as copy-assignment, and the destruction of these types is a no-operation.</p>
 	</body>
 </html>
