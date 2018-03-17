@@ -98,7 +98,7 @@ class-key name base-clause { member-specification }
 
 		<p>class-key can be "class" or "struct", name is the name of the class, base-clause is an optional clause beginning with ':' and followed by a comma separated list of base specifiers where each base specifier is the name of a class to be used as a base class optionally preceeded with an access specifier of "public", "private", or "protected".</p>
 
-		<p>In the base clause, when a base class is specified with the access specifier <tt>public</tt>, all public inherited members will have public access mode and all protected inherited members will have protected access mode in the current class, this is known as public inheritance. Public inheritance is the default inheritance mode for derived classes declared with a class key of <tt>struct</tt>.</p>
+		<p>In the base clause, when a base class is specified with the access specifier <tt>public</tt>, all inherited members (which are the public and protected members of the base class) will have their access modes unchanged in the derived class, this is known as public inheritance. Public inheritance is the default inheritance mode when the current class is declared with class-key <tt>struct</tt>.
 
 		<p>A base class specifier of <tt>private</tt> means that the inherited members will have private access mode in the current class; this is the default inheritance mode for derived classes declared with a class key of <tt>class</tt>.</p>
 
@@ -183,6 +183,61 @@ struct C : private B {
 
 		<img src="std_io.png">
 
+		<div class="section">Summary</div>
+
+		<table>
+			<tr>
+				<th>Access mode</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>public</tt></td>
+				<td>The class member(s) can be accessed from code existing inside or outside the class</td>
+			</tr>
+			<tr>
+				<td><tt>protected</tt></td>
+				<td>The class member(s) can be accessed from code existing inside the class or inside any derived classes</td>
+			</tr>
+			<tr>
+				<td><tt>private</tt></td>
+				<td>The class member(s) can only be accessed from code existing inside the class</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th>Inheritance mode</th>
+				<th>Meaning</th>
+			</tr>
+			<tr>
+				<td><tt>public</tt></td>
+				<td>The public and protected inherited members from the base class have the same access modes in the derived class</td>
+			</tr>
+			<tr>
+				<td><tt>protected</tt></td>
+				<td>The public and protected inherited members from the base class have protected access in the derived class</td>
+			</tr>
+			<tr>
+				<td><tt>private</tt></td>
+				<td>The public and protected inherited members from the base class have private access in the derived class</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th>Class key</th>
+				<th>Default member access mode</th>
+				<th>Default inheritance mode (when used as a derived class)</th>
+			</tr>
+			<tr>
+				<td><tt>struct</tt></td>
+				<td><tt>public</tt></td>
+				<td><tt>public</tt></td>
+			</tr>
+			<tr>
+				<td><tt>class</tt></td>
+				<td><tt>private</tt></td>
+				<td><tt>private</tt></td>
+			</tr>
+		</table>
 	</body>
 
 </html>
